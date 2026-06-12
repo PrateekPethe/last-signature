@@ -1,133 +1,133 @@
 [
   {
-    "title": "Software Engineer - Frontend (React.js)",
-    "company": "Swiggy",
-    "location": "Bangalore, India",
-    "salary": "₹15,00,000 - ₹25,00,000",
-    "experience": "2-5 years",
-    "source": "Naukri",
-    "url": "https://boards.greenhouse.io/swiggy/jobs/4279093004?gh_jid=4279093004",
-    "date": "2026-06-12T13:33:41.453Z",
-    "description": "Looking for an expert React developer to build high-performance web interfaces for Swiggy's consumer application. Required skills: React.js, Next.js, Redux, JavaScript, CSS Grid, HTML5.",
-    "ratings": {
-      "ambitionbox": 4.1,
-      "glassdoor": 3.9,
-      "breakdown": {
-        "workLife": 3.8,
-        "salary": 4.2,
-        "growth": 4,
-        "culture": 4.1,
-        "security": 3.9
-      }
-    }
-  },
-  {
-    "title": "SDE-2 Backend Developer",
-    "company": "Zomato",
-    "location": "Gurgaon, India",
-    "salary": "₹18,00,000 - ₹28,00,000",
-    "experience": "3-6 years",
-    "source": "Naukri",
-    "url": "https://jobs.lever.co/zomato/a0b4d0fd-4f7f-442a-9cb8-0112702758bb",
-    "date": "2026-06-12T10:33:41.454Z",
-    "description": "Build robust scalable APIs using Node.js, Go, or Python. Work with microservices, Redis, PostgreSQL, and AWS systems. Strong problem-solving and algorithms required.",
-    "ratings": {
-      "ambitionbox": 3.9,
-      "glassdoor": 3.7,
-      "breakdown": {
-        "workLife": 3.2,
-        "salary": 4.3,
-        "growth": 3.9,
-        "culture": 3.8,
-        "security": 3.6
-      }
-    }
-  },
-  {
-    "title": "Senior Full Stack Engineer",
-    "company": "Razorpay",
-    "location": "Bangalore, India (Hybrid)",
-    "salary": "₹24,00,000 - ₹35,00,000",
-    "experience": "5-8 years",
+    "title": "Senior Software Engineer - Postgres",
+    "company": "ClickHouse",
+    "location": "Remote, India",
+    "salary": "₹35,00,000 - ₹50,00,000",
+    "experience": "5y+",
     "source": "LinkedIn",
-    "url": "https://boards.greenhouse.io/razorpay/jobs/5239104?gh_jid=5239104",
-    "date": "2026-06-12T07:33:41.454Z",
-    "description": "Lead the development of core payment checkout APIs. Technical stack: Node.js, React, PHP, AWS, MySQL, Docker. Deep understanding of web security, CORS, and network routing is critical.",
+    "url": "https://boards.greenhouse.io/clickhouse/jobs/5077274004",
+    "date": "2026-06-12T13:52:55.256Z",
+    "description": "Build the next-generation distributed database engines. Experience in C++, Postgres, database internals, and systems programming required. Remote within India.",
+    "ratings": {
+      "ambitionbox": 4.4,
+      "glassdoor": 4.5,
+      "breakdown": {
+        "workLife": 4.3,
+        "salary": 4.6,
+        "growth": 4.4,
+        "culture": 4.6,
+        "security": 4.2
+      }
+    }
+  },
+  {
+    "title": "Software Engineer 2 (Backend)",
+    "company": "Abnormal Security",
+    "location": "Bangalore, India (Hybrid)",
+    "salary": "₹24,00,000 - ₹36,00,000",
+    "experience": "2-5 years",
+    "source": "LinkedIn",
+    "url": "https://boards.greenhouse.io/abnormalsecurity/jobs/5209320004",
+    "date": "2026-06-12T10:52:55.257Z",
+    "description": "Design and build core backend systems using Python, Go, and AWS. Work on threat detection systems and high-throughput ingestion pipelines. Strong system design is required.",
+    "ratings": {
+      "ambitionbox": 4.5,
+      "glassdoor": 4.6,
+      "breakdown": {
+        "workLife": 4.2,
+        "salary": 4.7,
+        "growth": 4.5,
+        "culture": 4.7,
+        "security": 4.4
+      }
+    }
+  },
+  {
+    "title": "Staff Software Engineer - Core Platform",
+    "company": "6sense",
+    "location": "Bengaluru, India (Hybrid)",
+    "salary": "₹40,00,000 - ₹55,00,000",
+    "experience": "8y+",
+    "source": "Naukri",
+    "url": "https://boards.greenhouse.io/6sense/jobs/5431620004",
+    "date": "2026-06-12T07:52:55.257Z",
+    "description": "Lead the development of 6sense's core predictive intelligence platform. Expertise in Java, Python, distributed systems (Spark, Hadoop, Kafka), and data engineering is essential.",
     "ratings": {
       "ambitionbox": 4.3,
-      "glassdoor": 4.2,
+      "glassdoor": 4.4,
       "breakdown": {
-        "workLife": 4,
+        "workLife": 4.1,
         "salary": 4.5,
-        "growth": 4.2,
+        "growth": 4.3,
         "culture": 4.4,
         "security": 4.1
       }
     }
   },
   {
-    "title": "React Native Mobile Engineer",
-    "company": "Paytm",
-    "location": "Noida, India",
-    "salary": "₹10,00,000 - ₹18,00,000",
-    "experience": "1-4 years",
-    "source": "Naukri",
-    "url": "https://jobs.lever.co/paytm/628b0f3e-8c65-4f7d-a19b-c128038abf32",
-    "date": "2026-06-12T01:33:41.454Z",
-    "description": "Develop cross-platform mobile app features for payments and mini-apps. Expertise in React Native, JavaScript, TypeScript, Android/iOS build processes is a must.",
-    "ratings": {
-      "ambitionbox": 3.7,
-      "glassdoor": 3.5,
-      "breakdown": {
-        "workLife": 3.4,
-        "salary": 3.8,
-        "growth": 3.5,
-        "culture": 3.6,
-        "security": 3.5
-      }
-    }
-  },
-  {
-    "title": "Security Engineer (L2)",
-    "company": "Jio",
-    "location": "Mumbai, India",
-    "salary": "₹14,00,000 - ₹22,00,000",
-    "experience": "3-5 years",
-    "source": "Naukri",
-    "url": "https://boards.greenhouse.io/jio/jobs/4820192",
-    "date": "2026-06-11T19:33:41.454Z",
-    "description": "Audit web applications and API gateway systems for security. Implement firewalls, CORS policies, penetration testing, and rate limiting. Relevant certifications (CEH, OSCP) preferred.",
-    "ratings": {
-      "ambitionbox": 4,
-      "glassdoor": 3.8,
-      "breakdown": {
-        "workLife": 3.9,
-        "salary": 3.8,
-        "growth": 3.9,
-        "culture": 3.9,
-        "security": 4.2
-      }
-    }
-  },
-  {
-    "title": "Senior Product Manager",
-    "company": "Flipkart",
-    "location": "Bangalore, India",
-    "salary": "₹30,00,000 - ₹45,00,000",
+    "title": "Senior Software Engineer",
+    "company": "YugabyteDB",
+    "location": "Pune, India (Hybrid)",
+    "salary": "₹28,00,000 - ₹42,00,000",
     "experience": "5y+",
+    "source": "Naukri",
+    "url": "https://boards.greenhouse.io/yugabyte/jobs/4320953004",
+    "date": "2026-06-12T01:52:55.257Z",
+    "description": "Develop the query layering and distributed storage layers for YugabyteDB. Expert knowledge of PostgreSQL, database transaction models, C++, or Go is required.",
+    "ratings": {
+      "ambitionbox": 4.2,
+      "glassdoor": 4.3,
+      "breakdown": {
+        "workLife": 4,
+        "salary": 4.4,
+        "growth": 4.2,
+        "culture": 4.3,
+        "security": 4
+      }
+    }
+  },
+  {
+    "title": "Technical Product Manager",
+    "company": "SupplyHouse",
+    "location": "Remote, India",
+    "salary": "₹18,00,000 - ₹28,00,000",
+    "experience": "3-5 years",
     "source": "LinkedIn",
-    "url": "https://jobs.lever.co/flipkart/e28c0b3e-8d65-4f7d-a19b-c128038abf33",
-    "date": "2026-06-11T13:33:41.454Z",
-    "description": "Drive product lifecycle for customer checkouts and cart conversions. Coordinate with design, engineering, QA, and security teams. Agile product experience required.",
+    "url": "https://boards.greenhouse.io/supplyhouse/jobs/4320986004",
+    "date": "2026-06-11T19:52:55.257Z",
+    "description": "Drive technical roadmap, requirements gathering, and feature launches for customer-facing systems. Partner closely with developers, designers, and business leads.",
     "ratings": {
       "ambitionbox": 4.1,
-      "glassdoor": 4,
+      "glassdoor": 4.2,
       "breakdown": {
-        "workLife": 3.8,
-        "salary": 4.4,
-        "growth": 4.1,
-        "culture": 4.1,
-        "security": 4
+        "workLife": 3.9,
+        "salary": 4.1,
+        "growth": 4,
+        "culture": 4.2,
+        "security": 3.9
+      }
+    }
+  },
+  {
+    "title": "Enterprise Solutions Consultant",
+    "company": "Figma",
+    "location": "Bengaluru, India",
+    "salary": "₹25,00,000 - ₹38,00,000",
+    "experience": "5y+",
+    "source": "LinkedIn",
+    "url": "https://boards.greenhouse.io/figma/jobs/5267439004",
+    "date": "2026-06-11T13:52:55.257Z",
+    "description": "Work with enterprise design and engineering teams to integrate and scale Figma workflows. Deliver technical demonstrations, system audits, and consult on workflow designs.",
+    "ratings": {
+      "ambitionbox": 4.6,
+      "glassdoor": 4.7,
+      "breakdown": {
+        "workLife": 4.3,
+        "salary": 4.8,
+        "growth": 4.5,
+        "culture": 4.8,
+        "security": 4.6
       }
     }
   },
