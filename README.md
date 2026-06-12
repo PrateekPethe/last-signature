@@ -1,19 +1,19 @@
 # 🚀 Last Signature — Job Search Aggregator & AI Resume Matcher
 
-Last Signature is a premium, high-fidelity job search aggregator, ATS compatibility matcher, and application tracking pipeline designed to help job seekers discover, score, and track listings from **LinkedIn, Naukri, and RemoteJobs** completely free of charge.
+Last Signature is a premium, high-energy brutalist job search aggregator, ATS compatibility matcher, and application tracking pipeline designed to help job seekers discover, score, and track listings from **LinkedIn, Naukri, and RemoteJobs** completely free of charge.
 
-Stylized like an **authentic wobbly paper sketchbook/notebook**, Last Signature rejects geometric precision in favor of hand-drawn elements, handwriting typography, and tactile interactions, while remaining a robust, fully-featured utility for your job hunt.
+Stylized with a **Kinetic Typography** visual layout, the dashboard rejects typical static shapes. Giant viewport headlines, endless moving marquees, flat 2px borders, and solid color inversions turn this job aggregator into a high-impact, interactive poster.
 
 ---
 
 ## 🎨 Design Signatures
 
-1. **No Straight Lines**: Every button, input box, filter card, and container uses irregular wobbly borders (using custom border-radius properties).
-2. **Notebook Canvas**: The page is styled in a warm paper color (`#fdfbf7`) overlayed with a repeating dot-grid structure.
-3. **Hard Offset Shadows**: Blurred shadows are avoided; instead, flat offsets (`4px 4px 0px 0px #2d2d2d`) give elements a cut-paper collage look.
-4. **Interactive Personality**: Buttons "press flat" by shifting their margins on click, and cards jiggle playfully when you hover over them.
-5. **Authentic Notebook Accents**: Visual details like thumbtacks and masking tape anchor cards and sections.
-6. **Handwritten Typography**: Set in Google Fonts **Kalam** (felt-tip marker style for headings) and **Patrick Hand** (clean handwriting for body text).
+1. **Brutalist Geometry**: All border-radii are set strictly to `0px` (completely sharp corners). Structural outlines use flat 2px solid lines (`border-2 border-[#3F3F46]`).
+2. **Space Grotesk Typography**: Headings and display text use Google Font **Space Grotesk**, rendered in bold uppercase with tight letter spacing (`tracking-tighter`).
+3. **Infinite Marquees**: Continuous, GPU-accelerated horizontal marquees display live platform statistics across the screen.
+4. **Hard Color Inversions**: Cards and buttons completely flood with vibrant Acid Yellow (`#DFE104`) and invert text color to black instantaneously on hover.
+5. **Massive Graphic Numbers**: Oversized background numbers (`8rem` to `12rem`) in muted tones are layered behind content blocks to create graphical depth.
+6. **SVG Noise Texture**: A 3% opacity noise overlay (`mix-blend-mode: overlay`) filter is layered full-screen across the viewport.
 
 ---
 
@@ -54,11 +54,7 @@ npm run scan
 ```
 
 ### 3. Open the Dashboard
-Simply double-click **`index.html`** to load the dashboard in your browser!
-- On Windows (PowerShell):
-  ```powershell
-  Start-Process index.html
-  ```
+Simply double-click **`index.html`** or load the hosted local dev server at `http://localhost:8080`.
 
 ---
 

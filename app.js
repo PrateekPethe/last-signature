@@ -364,15 +364,15 @@ function renderJobs() {
     return;
   }
 
-  container.innerHTML = state.filteredJobs.map(job => {
+  container.innerHTML = state.filteredJobs.map((job, idx) => {
     const formattedSalary = formatSalaryDisplay(job.salary, job.location);
     const dateFormatted = timeAgo(job.date);
     const matchScore = getComputedMatchScore(job);
-    const postItClass = matchScore >= 80 ? 'post-it-yellow' : '';
+    const paddedIndex = String(idx + 1).padStart(2, '0');
 
     return `
-      <div class="job-card ${postItClass}" data-id="${job.id}">
-        <div class="tape-decoration"></div>
+      <div class="job-card" data-id="${job.id}">
+        <div class="decorative-num">${paddedIndex}</div>
         <div class="job-card-main">
           <div class="job-card-header">
             <h3 class="job-title">${escapeHTML(job.title)}</h3>
@@ -396,7 +396,7 @@ function renderJobs() {
             </div>
             <div class="meta-item">
               <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              <span style="font-weight: 600; color: var(--color-accent);">${formattedSalary}</span>
+              <span style="font-weight: 600; color: var(--accent);">${formattedSalary}</span>
             </div>
             <div class="meta-item">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>

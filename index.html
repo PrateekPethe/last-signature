@@ -3,10 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Last Signature | Job Search Aggregator & AI Resume Matcher</title>
+  <title>LAST SIGNATURE | JOB SEARCH AGGREGATOR & AI RESUME MATCHER</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
+  <!-- Full-Screen Viewport Noise Overlay -->
+  <svg class="noise-overlay" xmlns="http://www.w3.org/2000/svg">
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="4" stitchTiles="stitch" />
+      <feColorMatrix type="matrix" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.07 0" />
+    </filter>
+    <rect width="100%" height="100%" filter="url(#noise)" />
+  </svg>
 
   <div class="app-container">
     
@@ -16,47 +25,47 @@
         <div class="logo-container">
           <div class="logo-icon">
             <svg viewBox="0 0 24 24">
-              <path d="M12 2L2 22h20L12 2z" stroke="#2d2d2d" stroke-width="3" fill="none" stroke-linejoin="round"/>
-              <path d="M12 18l-3-3h6l-3 3z" fill="#2d2d2d"/>
+              <path d="M12 2L2 22h20L12 2z" stroke="#000000" stroke-width="3" fill="none" stroke-linejoin="round"/>
+              <path d="M12 18l-3-3h6l-3 3z" fill="#000000"/>
             </svg>
           </div>
-          <span class="logo-text">Last Signature</span>
+          <span class="logo-text">LAST SIGNATURE</span>
         </div>
         
         <ul class="nav-menu">
           <li class="nav-item active" data-tab="dashboard">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
-            <span>I. Dashboard</span>
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            <span>I. DASHBOARD</span>
           </li>
           <li class="nav-item" data-tab="matcher">
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>II. Resume Matcher</span>
+            <span>II. MATCHER</span>
           </li>
           <li class="nav-item" data-tab="kanban">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-            <span>III. Kanban Tracker</span>
+            <span>III. PIPELINE</span>
           </li>
           <li class="nav-item" data-tab="scrapers">
             <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            <span>IV. Scrapers Console</span>
+            <span>IV. TERMINAL</span>
           </li>
           <li class="nav-item" data-tab="report">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>V. Technical Report</span>
+            <span>V. BLUEPRINT</span>
           </li>
         </ul>
       </div>
 
       <!-- Compliance Disclaimer -->
-      <div style="padding: 12px; font-size: 11px; color: var(--text-muted); border-top: 3px dashed var(--border); line-height: 1.4; margin-top: auto; border-bottom: 3px dashed var(--border); font-family: var(--font-body);">
-        Disclaimer: Last Signature aggregates listings for educational purposes. All job details, trademarks, and company ratings are properties of their respective platforms (LinkedIn, Naukri, AmbitionBox, Glassdoor). Apply links route directly to official portals.
+      <div style="padding: 12px; font-size: 11px; color: var(--muted-foreground); border-top: 1px solid var(--border); line-height: 1.4; margin-top: auto; border-bottom: 1px solid var(--border); text-transform: uppercase; font-weight: 700;">
+        DISCLAIMER: LAST SIGNATURE AGGREGATES PUBLIC LISTINGS. ALL TRADEMARKS, BRAND LOGOS, AND COMPANY REVIEWS REMAIN PROPERTIES OF RESPECTIVE HOST PORTALS (LINKEDIN, NAUKRI, AMBITIONBOX).
       </div>
 
       <div class="sidebar-footer">
         <div class="avatar">PP</div>
         <div class="user-info">
-          <span class="username">Prateek Pethe</span>
-          <span class="user-status">Free Mode</span>
+          <span class="username">PRATEEK PETHE</span>
+          <span class="user-status">FREE MODE</span>
         </div>
       </div>
     </aside>
@@ -68,13 +77,13 @@
       <header class="top-header">
         <div class="search-box-container">
           <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          <input type="text" id="main-search" class="search-input" placeholder="Search role, skills, keywords or companies...">
+          <input type="text" id="main-search" class="search-input" placeholder="SEARCH ROLES, SKILLS, OR COMPANIES...">
         </div>
         
         <div class="header-actions">
           <!-- PPP Conversion Switcher -->
           <div class="ppp-toggle-container">
-            <span>PPP Salary Adj. (India)</span>
+            <span>PPP SALARY ADJ. (INDIA)</span>
             <label class="switch">
               <input type="checkbox" id="ppp-checkbox">
               <span class="slider-toggle"></span>
@@ -83,10 +92,27 @@
           
           <button class="scan-now-btn" onclick="triggerClientScan()">
             <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-            <span>Scan Feeds</span>
+            <span>SCAN FEEDS</span>
           </button>
         </div>
       </header>
+
+      <!-- Infinite Marquee for Live Stats -->
+      <div class="marquee-container">
+        <div class="marquee-content fast">
+          <div class="marquee-item"><span class="accent-dot">■</span> 124,531 JOBS SCANNED</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 82,904 ACTIVE PORTALS</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 12,390 APPLICATIONS TRACKED</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 83% PPP SALARY GAIN</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 0% DATA AGGREGATION FEES</div>
+          <!-- Repeat items for seamless looping -->
+          <div class="marquee-item"><span class="accent-dot">■</span> 124,531 JOBS SCANNED</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 82,904 ACTIVE PORTALS</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 12,390 APPLICATIONS TRACKED</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 83% PPP SALARY GAIN</div>
+          <div class="marquee-item"><span class="accent-dot">■</span> 0% DATA AGGREGATION FEES</div>
+        </div>
+      </div>
 
       <!-- TAB: DASHBOARD -->
       <section id="dashboard-tab" class="tab-content active">
@@ -94,81 +120,80 @@
           
           <!-- Filters sidebar -->
           <aside class="filters-card">
-            <div class="tack-decoration"></div>
-            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; border-bottom: 2px dashed var(--border); padding-bottom: 8px; text-align: center;">Filters</h3>
+            <h3 style="font-size: 16px; font-weight: 700; border-bottom: 2px solid var(--border); padding-bottom: 8px; text-transform: uppercase;">FILTERS</h3>
             
             <!-- Sources platforms -->
             <div class="filter-group">
-              <span class="filter-label">Job Source</span>
+              <span class="filter-label">JOB SOURCE</span>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-linkedin" data-filter="platform" checked>
                 <span class="checkmark"></span>
-                LinkedIn
+                LINKEDIN
               </label>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-naukri" data-filter="platform" checked>
                 <span class="checkmark"></span>
-                Naukri (India)
+                NAUKRI (INDIA)
               </label>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-remotejobs" data-filter="platform" checked>
                 <span class="checkmark"></span>
-                RemoteJobs
+                REMOTEJOBS
               </label>
             </div>
 
             <!-- Job locations type -->
             <div class="filter-group">
-              <span class="filter-label">Work Mode</span>
+              <span class="filter-label">WORK MODE</span>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-remote" data-filter="jobtype" checked>
                 <span class="checkmark"></span>
-                Remote
+                REMOTE
               </label>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-hybrid" data-filter="jobtype" checked>
                 <span class="checkmark"></span>
-                Hybrid
+                HYBRID
               </label>
               <label class="custom-checkbox">
                 <input type="checkbox" id="cb-onsite" data-filter="jobtype" checked>
                 <span class="checkmark"></span>
-                On-site
+                ON-SITE
               </label>
             </div>
 
             <!-- Experience range -->
             <div class="filter-group">
-              <span class="filter-label">Experience Required</span>
-              <label class="custom-checkbox" style="font-size:15px;">
+              <span class="filter-label">EXPERIENCE REQUIRED</span>
+              <label class="custom-checkbox" style="font-size:13px;">
                 <input type="radio" name="experience" value="all" checked>
-                <span class="checkmark" style="border-radius:50%"></span>
-                All levels
+                <span class="checkmark"></span>
+                ALL LEVELS
               </label>
-              <label class="custom-checkbox" style="font-size:15px;">
+              <label class="custom-checkbox" style="font-size:13px;">
                 <input type="radio" name="experience" value="entry">
-                <span class="checkmark" style="border-radius:50%"></span>
-                Entry / Intern (0-2y)
+                <span class="checkmark"></span>
+                ENTRY / INTERN (0-2Y)
               </label>
-              <label class="custom-checkbox" style="font-size:15px;">
+              <label class="custom-checkbox" style="font-size:13px;">
                 <input type="radio" name="experience" value="mid">
-                <span class="checkmark" style="border-radius:50%"></span>
-                Mid-level (2-5y)
+                <span class="checkmark"></span>
+                MID-LEVEL (2-5Y)
               </label>
-              <label class="custom-checkbox" style="font-size:15px;">
+              <label class="custom-checkbox" style="font-size:13px;">
                 <input type="radio" name="experience" value="senior">
-                <span class="checkmark" style="border-radius:50%"></span>
-                Senior / Lead (5y+)
+                <span class="checkmark"></span>
+                SENIOR / LEAD (5Y+)
               </label>
             </div>
 
             <!-- Salary Range -->
             <div class="filter-group">
-              <span class="filter-label">Minimum Salary</span>
+              <span class="filter-label">MINIMUM SALARY</span>
               <div class="slider-container">
                 <input type="range" id="salary-range" class="range-input" min="0" max="30" value="0">
                 <div class="slider-labels">
-                  <span id="salary-val">Any Salary</span>
+                  <span id="salary-val">ANY SALARY</span>
                 </div>
               </div>
             </div>
@@ -177,15 +202,15 @@
           <!-- Listings area -->
           <div class="job-board">
             <div class="board-header">
-              <span class="job-count"><strong id="job-count-val">0</strong> jobs aggregated</span>
+              <span class="job-count"><strong id="job-count-val">0</strong> JOBS AGGREGATED</span>
               
               <div class="sort-container">
-                <span>Sort by:</span>
+                <span>SORT BY:</span>
                 <select id="sort-select" class="sort-select">
-                  <option value="freshness">Freshness (Newest)</option>
-                  <option value="salary">Salary (Highest)</option>
-                  <option value="rating">Rating (AmbitionBox)</option>
-                  <option value="match">Match Score (AI)</option>
+                  <option value="freshness">FRESHNESS (NEWEST)</option>
+                  <option value="salary">SALARY (HIGHEST)</option>
+                  <option value="rating">RATING (AMBITIONBOX)</option>
+                  <option value="match">MATCH SCORE (AI)</option>
                 </select>
               </div>
             </div>
@@ -205,56 +230,51 @@
           
           <!-- Resume Input Card -->
           <div class="matcher-input-card">
-            <div class="tack-decoration"></div>
-            <h3 style="font-family: var(--font-heading); font-size:20px; font-weight:700; text-align:center;">ATS Resume Scanner</h3>
-            <p style="font-size:15px; color:var(--text-secondary); text-align:center;">Paste your resume text here to analyze keyword matching and auto-generate application pitches.</p>
-            <textarea id="resume-text" class="resume-textarea" placeholder="Paste resume plain text (skills, work history, experience)..."></textarea>
+            <h3>ATS RESUME SCANNER</h3>
+            <p style="font-size:13px; color:var(--muted-foreground);">PASTE YOUR RESUME TEXT HERE TO ANALYZE KEYWORD MATCHING AND AUTO-GENERATE APPLICATION PITCHES.</p>
+            <textarea id="resume-text" class="resume-textarea" placeholder="PASTE RESUME PLAIN TEXT (SKILLS, WORK HISTORY, EXPERIENCE)..."></textarea>
             
             <div style="display:flex; flex-direction:column; gap:8px;">
-              <span class="filter-label" style="font-size:14px;">Compare against job:</span>
+              <span class="filter-label" style="font-size:12px;">COMPARE AGAINST JOB:</span>
               <select id="matcher-job-select" class="sort-select" style="width:100%; padding:10px;"></select>
             </div>
             
-            <button class="match-btn" onclick="runMatcherAnalysis()">Scan Resume Compatibility</button>
+            <button class="match-btn" onclick="runMatcherAnalysis()">SCAN RESUME COMPATIBILITY</button>
           </div>
 
           <!-- Matching Results Card -->
           <div class="matcher-results">
             <div class="report-section" style="padding:24px; display:flex; justify-content:space-between; align-items:center;">
-              <div class="tape-decoration"></div>
               <div>
-                <h2 style="font-family: var(--font-heading);">ATS Match Score Analysis</h2>
-                <p style="font-size:15px; margin:0; color:var(--text-secondary);">Calculates keyword coverage on required frameworks, programming languages, and credentials.</p>
+                <h2>ATS MATCH SCORE ANALYSIS</h2>
+                <p style="font-size:13px; margin:0; color:var(--muted-foreground);">Calculates keyword coverage on required frameworks, programming languages, and credentials.</p>
               </div>
-              <div class="match-score-badge" style="width:100px; height:100px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:50%; background:var(--bg-primary);">
-                <div id="matcher-score" style="font-size:28px; font-weight:700; font-family:var(--font-heading); color:var(--color-secondary-accent)">0%</div>
-                <div class="match-score-label" style="font-size:10px;">ATS Match</div>
+              <div class="match-score-badge" style="width:100px; height:100px; display:flex; flex-direction:column; justify-content:center; align-items:center; background:var(--muted);">
+                <div id="matcher-score" style="font-size:26px; font-weight:700; color:var(--accent)">0%</div>
+                <div class="match-score-label" style="font-size:8px;">ATS MATCH</div>
               </div>
             </div>
 
             <!-- Highlight Columns -->
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
               <div class="report-section" style="padding:20px;">
-                <div class="tack-decoration"></div>
-                <h3 style="margin:0 0 10px 0; font-family: var(--font-heading); color:var(--color-success)">Matched Keywords</h3>
+                <h3 style="margin:0 0 10px 0; color:var(--accent)">MATCHED KEYWORDS</h3>
                 <div id="matched-keywords-list" class="keyword-pill-container"></div>
               </div>
               <div class="report-section" style="padding:20px;">
-                <div class="tack-decoration"></div>
-                <h3 style="margin:0 0 10px 0; font-family: var(--font-heading); color:var(--color-accent)">Missing Keywords (Add to resume)</h3>
+                <h3 style="margin:0 0 10px 0; color:var(--muted-foreground)">MISSING KEYWORDS (ADD TO RESUME)</h3>
                 <div id="missing-keywords-list" class="keyword-pill-container"></div>
               </div>
             </div>
 
             <!-- Generated Pitch -->
             <div class="report-section" style="padding:24px;">
-              <div class="tape-decoration"></div>
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                <h2 style="margin:0; font-size:20px; font-family: var(--font-heading);">Tailored Application Pitch</h2>
-                <button class="code-copy-btn" onclick="copyPitchText()" style="position:static;">Copy Pitch</button>
+                <h2 style="margin:0; font-size:18px;">TAILORED APPLICATION PITCH</h2>
+                <button class="code-copy-btn" onclick="copyPitchText()" style="position:static;">COPY PITCH</button>
               </div>
               <div class="code-copy-box" style="white-space:pre-wrap; max-height:250px; overflow-y:auto;" id="pitch-box">
-                <span style="color:var(--text-muted)">Paste your resume on the left panel to auto-generate a personalized email pitch tailored to the selected job description.</span>
+                <span style="color:var(--muted-foreground)">PASTE YOUR RESUME ON THE LEFT PANEL TO AUTO-GENERATE A PERSONALIZED EMAIL PITCH TAILORED TO THE SELECTED JOB DESCRIPTION.</span>
               </div>
             </div>
           </div>
@@ -264,16 +284,16 @@
 
       <!-- TAB: KANBAN BOARD TRACKER -->
       <section id="kanban-tab" class="tab-content">
-        <div style="margin-bottom:20px; text-align:center;">
-          <h2 style="font-family: var(--font-heading); font-size:26px; font-weight:700; margin-bottom:4px;">III. Applications Pipeline</h2>
-          <p style="font-size:15px; color:var(--text-secondary);">Manage your active application pipeline. Drag and drop cards between status columns.</p>
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:700; margin-bottom:4px; text-transform: uppercase;">III. APPLICATIONS PIPELINE</h2>
+          <p style="font-size:13px; color:var(--muted-foreground);">MANAGE YOUR ACTIVE APPLICATION PIPELINE. DRAG AND DROP CARDS BETWEEN STATUS COLUMNS.</p>
         </div>
         <div class="kanban-board-container">
           
           <!-- Wishlist Column -->
           <div class="kanban-column" id="kanban-column-wishlist">
             <div class="column-header">
-              <span class="column-title" style="color:var(--text-muted)">Wishlist</span>
+              <span class="column-title" style="color:var(--muted-foreground)">WISHLIST</span>
               <span class="column-badge" id="kanban-badge-wishlist">0</span>
             </div>
             <div class="job-list" id="kanban-list-wishlist" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -282,7 +302,7 @@
           <!-- Applied Column -->
           <div class="kanban-column" id="kanban-column-applied">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-secondary-accent)">Applied</span>
+              <span class="column-title" style="color:var(--foreground)">APPLIED</span>
               <span class="column-badge" id="kanban-badge-applied">0</span>
             </div>
             <div class="job-list" id="kanban-list-applied" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -291,7 +311,7 @@
           <!-- Interviewing Column -->
           <div class="kanban-column" id="kanban-column-interviewing">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-accent)">Interviewing</span>
+              <span class="column-title" style="color:var(--accent)">INTERVIEWING</span>
               <span class="column-badge" id="kanban-badge-interviewing">0</span>
             </div>
             <div class="job-list" id="kanban-list-interviewing" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -300,7 +320,7 @@
           <!-- Offered Column -->
           <div class="kanban-column" id="kanban-column-offered">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-success)">Offered</span>
+              <span class="column-title" style="color:var(--accent)">OFFERED</span>
               <span class="column-badge" id="kanban-badge-offered">0</span>
             </div>
             <div class="job-list" id="kanban-list-offered" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -309,7 +329,7 @@
           <!-- Rejected Column -->
           <div class="kanban-column" id="kanban-column-rejected">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-accent)">Rejected</span>
+              <span class="column-title" style="color:var(--muted-foreground)">REJECTED</span>
               <span class="column-badge" id="kanban-badge-rejected">0</span>
             </div>
             <div class="job-list" id="kanban-list-rejected" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -320,9 +340,9 @@
 
       <!-- TAB: SCRAPERS SIMULATOR -->
       <section id="scrapers-tab" class="tab-content">
-        <div style="margin-bottom:20px; text-align:center;">
-          <h2 style="font-family: var(--font-heading); font-size:26px; font-weight:700; margin-bottom:4px;">IV. Local CLI Scraper Console</h2>
-          <p style="font-size:15px; color:var(--text-secondary);">Monitors crawling logs, HTTP proxy rotations, rate limiting, and database compiles during RSS scanner cycles.</p>
+        <div style="margin-bottom:20px;">
+          <h2 style="font-size:20px; font-weight:700; margin-bottom:4px; text-transform: uppercase;">IV. LOCAL CLI SCRAPER CONSOLE</h2>
+          <p style="font-size:13px; color:var(--muted-foreground);">MONITORS CRAWLING LOGS, HTTP PROXY ROTATIONS, RATE LIMITING, AND DATABASE COMPILES DURING RSS CRAWLER CYCLES.</p>
         </div>
         <div class="terminal-container">
           <div class="terminal-header">
@@ -344,12 +364,12 @@
         <div class="report-layout">
           
           <header class="report-header">
-            <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--text-primary);">V. Last Signature Blueprint & System Report</h1>
-            <p style="color:var(--text-secondary); margin-top:8px; font-size: 16px;">Complete guide to production scaling, security policies, and custom prompts.</p>
+            <h1>V. LAST SIGNATURE BLUEPRINT</h1>
+            <p style="color:var(--muted-foreground); margin-top:8px;">COMPLETE GUIDE TO PRODUCTION SCALING, SECURITY POLICIES, AND CUSTOM REBUILDER PROMPTS.</p>
           </header>
 
           <article class="report-section">
-            <div class="tape-decoration"></div>
+            <div class="decorative-num">01</div>
             <h2>I. Scraping Strategy & Zero-Cost Architecture</h2>
             <p>To scale this system without recurring API fees, we implement a self-hosted pipeline using Node.js scripts and free cloud databases:</p>
             <ul>
@@ -360,7 +380,7 @@
           </article>
 
           <article class="report-section">
-            <div class="tape-decoration"></div>
+            <div class="decorative-num">02</div>
             <h2>II. Database & Semantic Vector Search Indexing</h2>
             <p>For high-performance filtering and semantic matching in production, we recommend the following free schema:</p>
             <ul>
@@ -370,7 +390,7 @@
           </article>
 
           <article class="report-section">
-            <div class="tape-decoration"></div>
+            <div class="decorative-num">03</div>
             <h2>III. Security Blueprint & Client Protection</h2>
             <p>Maintaining security on a free hosting tier is vital to prevent credential theft or browser hijacking:</p>
             <ul>
@@ -381,21 +401,21 @@
           </article>
 
           <article class="report-section">
-            <div class="tape-decoration"></div>
+            <div class="decorative-num">04</div>
             <h2>IV. LLM Prompt: System Rebuilder</h2>
             <p>Use the following highly structured system prompt in Gemini or ChatGPT to recreate or scale this entire application with high visual and layout fidelity:</p>
             
             <div class="code-copy-box">
               <button class="code-copy-btn" onclick="copyPromptText()">Copy Prompt</button>
-              <pre id="llm-prompt-code" style="white-space: pre-wrap; font-family:var(--font-mono); font-size:13px;">You are an expert Frontend Architect specializing in wobbly hand-drawn and notebook dashboard design systems. Create a single-page Job Search Aggregator application named "Last Signature" using Vanilla HTML, CSS, and JS. 
+              <pre id="llm-prompt-code" style="white-space: pre-wrap; font-family:var(--font-mono); font-size:12px;">You are an expert Frontend Architect specializing in brutalist kinetic typography design systems. Create a single-page Job Search Aggregator application named "Last Signature" using Vanilla HTML, CSS, and JS. 
 
 DESIGN REQUIREMENTS:
-1. Palette: Warm paper background (#fdfbf7), soft pencil lead black (#2d2d2d), correction marker red accent (#ff4d4d), and ballpoint blue secondary accent (#2d5da1).
-2. Notebook Texture: Repeats a subtle grid pattern (radial-gradient of dots at 24px intervals). 
-3. Wobbly Borders: Apply custom irregular border-radius styles to cards, buttons, and badges to ensure NO straight lines exist.
-4. Hard Offset Shadows: Use solid black offsets (4px 4px 0px 0px #2d2d2d) instead of blurred drop shadows. 
-5. Snappy Interactions: Buttons "press flat" (shadow reduces to 0px on active clicks). Cards jiggle (rotate -1deg to 1deg) on hover.
-6. Typography: Import and use Google Fonts "Kalam" for display/headings and "Patrick Hand" for body text.
+1. Palette: Rich black background (#09090b), off-white foreground (#fafafa), dark gray muted (#27272a), and high-energy acid yellow accent (#dfe104).
+2. Layout System: 2px solid flat borders in zinc-700 (#3f3f46). Strictly 0px border-radius across all containers. 
+3. Kinetic Motion: GPU-accelerated horizontal scrolling marquee displaying live stats without gradient edges. 
+4. Hard Hover Inversions: Cards, buttons, and elements flood background with acid yellow and invert text/icons to pure black instantly.
+5. Typography: Space Grotesk Google Font. Headings are ultra-massive, uppercase, bold, and tracked tight (tracking-tighter).
+6. Texture Overlay: Fixed position viewport noise filter using SVG feTurbulence at 3% opacity overlays the screen.
 
 LOGICAL REQUIREMENTS:
 1. Data Ingestion: Connect directly to a free keyless API (Remotive API) and merge listings with a local 'jobs.json' output.
@@ -417,28 +437,28 @@ LOGICAL REQUIREMENTS:
   <div class="modal" id="rating-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 id="modal-company-name" style="font-family: var(--font-heading); font-size:22px; font-weight:700;">Company Ratings</h2>
+        <h2 id="modal-company-name">COMPANY RATINGS</h2>
         <button class="modal-close" onclick="closeRatingModal()">
           <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       
-      <p style="font-size:16px; color:var(--text-secondary); margin-bottom:16px;">
+      <p style="font-size:14px; color:var(--muted-foreground); margin-bottom:16px; text-transform: uppercase; font-weight: 700;">
         Detailed aggregate scores from employee reviews posted on AmbitionBox and Glassdoor.
       </p>
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
-        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--bg-postit); transform: rotate(1deg);">
-          <div style="font-size:28px; font-weight:700; color:var(--color-accent);" id="modal-ab-num">4.1</div>
-          <div class="match-score-label">AmbitionBox Rating</div>
+        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--muted);">
+          <div style="font-size:28px; font-weight:700; color:var(--accent);" id="modal-ab-num">4.1</div>
+          <div class="match-score-label">AMBITIONBOX RATING</div>
         </div>
-        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--bg-postit); transform: rotate(-1deg);">
-          <div style="font-size:28px; font-weight:700; color:var(--color-secondary-accent);" id="modal-gd-num">3.9</div>
-          <div class="match-score-label">Glassdoor Rating</div>
+        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--muted);">
+          <div style="font-size:28px; font-weight:700; color:var(--foreground);" id="modal-gd-num">3.9</div>
+          <div class="match-score-label">GLASSDOOR RATING</div>
         </div>
       </div>
 
-      <h3 class="filter-label" style="margin-bottom:8px;">Employee Satisfaction Metrics</h3>
+      <h3 class="filter-label" style="margin-bottom:8px;">EMPLOYEE SATISFACTION METRICS</h3>
       <div class="rating-bars-container" id="rating-rows-container">
         <!-- Filled dynamically -->
       </div>
