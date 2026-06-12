@@ -118,86 +118,101 @@
       <section id="dashboard-tab" class="tab-content active">
         <div class="dashboard-grid">
           
-          <!-- Filters sidebar -->
-          <aside class="filters-card">
-            <h3 style="font-size: 16px; font-weight: 700; border-bottom: 2px solid var(--border); padding-bottom: 8px; text-transform: uppercase;">FILTERS</h3>
+          <!-- TOOLBAR DROPDOWNS -->
+          <div class="toolbar-container">
+            <div class="sources-mention-bar">
+              AGGREGATING ACTIVE OPPORTUNITIES FROM: <strong>WEWORKREMOTELY</strong>, <strong>REMOTE.CO</strong>, <strong>REMOTEOK</strong>, <strong>LINKEDIN</strong>, <strong>NAUKRI (INDIA)</strong>, AND DIRECT EMPLOYER POSTS.
+            </div>
             
-            <!-- Sources platforms -->
-            <div class="filter-group">
-              <span class="filter-label">JOB SOURCE</span>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-linkedin" data-filter="platform" checked>
-                <span class="checkmark"></span>
-                LINKEDIN
-              </label>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-naukri" data-filter="platform" checked>
-                <span class="checkmark"></span>
-                NAUKRI (INDIA)
-              </label>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-remotejobs" data-filter="platform" checked>
-                <span class="checkmark"></span>
-                REMOTEJOBS
-              </label>
-            </div>
+            <div class="filter-dropdowns">
+              <!-- Dropdown: Work Mode -->
+              <div class="dropdown" id="dropdown-work-mode">
+                <button class="dropdown-trigger" onclick="toggleDropdown('dropdown-work-mode', event)">
+                  <span id="label-work-mode">WORK MODE: ALL</span>
+                  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <label class="dropdown-item">
+                    <input type="checkbox" id="cb-remote" data-filter="jobtype" checked>
+                    <span>REMOTE</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="checkbox" id="cb-hybrid" data-filter="jobtype" checked>
+                    <span>HYBRID</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="checkbox" id="cb-onsite" data-filter="jobtype" checked>
+                    <span>ON-SITE</span>
+                  </label>
+                </div>
+              </div>
 
-            <!-- Job locations type -->
-            <div class="filter-group">
-              <span class="filter-label">WORK MODE</span>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-remote" data-filter="jobtype" checked>
-                <span class="checkmark"></span>
-                REMOTE
-              </label>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-hybrid" data-filter="jobtype" checked>
-                <span class="checkmark"></span>
-                HYBRID
-              </label>
-              <label class="custom-checkbox">
-                <input type="checkbox" id="cb-onsite" data-filter="jobtype" checked>
-                <span class="checkmark"></span>
-                ON-SITE
-              </label>
-            </div>
+              <!-- Dropdown: Location -->
+              <div class="dropdown" id="dropdown-location">
+                <button class="dropdown-trigger" onclick="toggleDropdown('dropdown-location', event)">
+                  <span id="label-location">LOCATION: ALL</span>
+                  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <label class="dropdown-item">
+                    <input type="radio" name="location-filter" value="all" checked>
+                    <span>ALL LOCATIONS</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="location-filter" value="remote">
+                    <span>REMOTE (WORLDWIDE)</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="location-filter" value="india">
+                    <span>INDIA</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="location-filter" value="us_eu">
+                    <span>US / EUROPE / OTHER</span>
+                  </label>
+                </div>
+              </div>
 
-            <!-- Experience range -->
-            <div class="filter-group">
-              <span class="filter-label">EXPERIENCE REQUIRED</span>
-              <label class="custom-checkbox" style="font-size:13px;">
-                <input type="radio" name="experience" value="all" checked>
-                <span class="checkmark"></span>
-                ALL LEVELS
-              </label>
-              <label class="custom-checkbox" style="font-size:13px;">
-                <input type="radio" name="experience" value="entry">
-                <span class="checkmark"></span>
-                ENTRY / INTERN (0-2Y)
-              </label>
-              <label class="custom-checkbox" style="font-size:13px;">
-                <input type="radio" name="experience" value="mid">
-                <span class="checkmark"></span>
-                MID-LEVEL (2-5Y)
-              </label>
-              <label class="custom-checkbox" style="font-size:13px;">
-                <input type="radio" name="experience" value="senior">
-                <span class="checkmark"></span>
-                SENIOR / LEAD (5Y+)
-              </label>
-            </div>
+              <!-- Dropdown: Experience -->
+              <div class="dropdown" id="dropdown-experience">
+                <button class="dropdown-trigger" onclick="toggleDropdown('dropdown-experience', event)">
+                  <span id="label-experience">EXPERIENCE: ALL LEVELS</span>
+                  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu">
+                  <label class="dropdown-item">
+                    <input type="radio" name="experience" value="all" checked>
+                    <span>ALL LEVELS</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="experience" value="entry">
+                    <span>ENTRY / INTERN (0-2Y)</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="experience" value="mid">
+                    <span>MID-LEVEL (2-5Y)</span>
+                  </label>
+                  <label class="dropdown-item">
+                    <input type="radio" name="experience" value="senior">
+                    <span>SENIOR / LEAD (5Y+)</span>
+                  </label>
+                </div>
+              </div>
 
-            <!-- Salary Range -->
-            <div class="filter-group">
-              <span class="filter-label">MINIMUM SALARY</span>
-              <div class="slider-container">
-                <input type="range" id="salary-range" class="range-input" min="0" max="30" value="0">
-                <div class="slider-labels">
-                  <span id="salary-val">ANY SALARY</span>
+              <!-- Dropdown: Salary -->
+              <div class="dropdown" id="dropdown-salary">
+                <button class="dropdown-trigger" onclick="toggleDropdown('dropdown-salary', event)">
+                  <span id="label-salary">SALARY: ANY</span>
+                  <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg>
+                </button>
+                <div class="dropdown-menu salary-dropdown-menu">
+                  <span class="filter-label" style="font-size: 11px; margin-bottom: 8px; display: block;">MINIMUM SALARY</span>
+                  <input type="range" id="salary-range" class="range-input" min="0" max="30" value="0">
+                  <div style="font-size: 12px; font-weight: 700; color: var(--accent-cyan); text-align: center; margin-top: 8px;" id="salary-val">ANY SALARY</div>
                 </div>
               </div>
             </div>
-          </aside>
+          </div>
 
           <!-- Listings area -->
           <div class="job-board">
@@ -210,7 +225,6 @@
                   <option value="freshness">FRESHNESS (NEWEST)</option>
                   <option value="salary">SALARY (HIGHEST)</option>
                   <option value="rating">RATING (AMBITIONBOX)</option>
-                  <option value="match">MATCH SCORE (AI)</option>
                 </select>
               </div>
             </div>
@@ -244,15 +258,9 @@
 
           <!-- Matching Results Card -->
           <div class="matcher-results">
-            <div class="report-section" style="padding:24px; display:flex; justify-content:space-between; align-items:center;">
-              <div>
-                <h2>ATS MATCH SCORE ANALYSIS</h2>
-                <p style="font-size:13px; margin:0; color:var(--muted-foreground);">Calculates keyword coverage on required frameworks, programming languages, and credentials.</p>
-              </div>
-              <div class="match-score-badge" style="width:100px; height:100px; display:flex; flex-direction:column; justify-content:center; align-items:center; background:var(--muted);">
-                <div id="matcher-score" style="font-size:26px; font-weight:700; color:var(--accent)">0%</div>
-                <div class="match-score-label" style="font-size:8px;">ATS MATCH</div>
-              </div>
+            <div class="report-section" style="padding:24px;">
+              <h2>ATS KEYWORD COMPATIBILITY ANALYSIS</h2>
+              <p style="font-size:13px; margin:0; color:var(--muted-foreground);">Scans and compares resume keywords against required frameworks, libraries, programming languages, and credentials in the job description.</p>
             </div>
 
             <!-- Highlight Columns -->

@@ -1,4 +1,4 @@
-// JobRadar Dashboard Logic Layer
+// Last Signature | Application Logic Layer
 
 // Application State
 const state = {
@@ -17,19 +17,19 @@ const state = {
   },
   filters: {
     query: '',
-    platforms: { linkedin: true, naukri: true, remotejobs: true },
     jobTypes: { remote: true, hybrid: true, onsite: true },
-    experience: 'all',
+    location: 'all', // all, remote, india, us_eu
+    experience: 'all', // all, entry, mid, senior
     minSalary: 0
   },
-  sorting: 'freshness' // freshness, salary, rating, match
+  sorting: 'freshness' // freshness, salary, rating
 };
 
 // Constant Multipliers for PPP Calculations
 const PPP_MULTIPLIER = 23; // $1 USD equivalent purchasing power in INR (~23 INR/USD)
 const REAL_USD_TO_INR = 83; // Real market exchange rate
 
-// Stop Words for keyword extracting in ATS parser
+// Stop Words for keyword extraction in resume scanner
 const STOP_WORDS = new Set([
   'the', 'is', 'and', 'a', 'to', 'in', 'of', 'for', 'with', 'on', 'at', 'by', 'an', 'be', 'this',
   'that', 'from', 'are', 'your', 'our', 'we', 'us', 'you', 'will', 'or', 'as', 'has', 'have',
@@ -101,6 +101,80 @@ function switchTab(tabId) {
   }
 }
 
+// Toggle custom dropdown menus
+window.toggleDropdown = function(dropdownId, event) {
+  if (event) {
+    event.stopPropagation();
+  }
+  const dropdown = document.getElementById(dropdownId);
+  const isActive = dropdown.classList.contains('active');
+  
+  // Close all other dropdowns
+  document.querySelectorAll('.dropdown').forEach(d => {
+    if (d.id !== dropdownId) d.classList.remove('active');
+  });
+  
+  if (isActive) {
+    dropdown.classList.remove('active');
+  } else {
+    dropdown.classList.add('active');
+  }
+};
+
+// Close dropdowns when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('active'));
+  }
+});
+
+// Update Filter Trigger Labels in UI
+function updateDropdownLabels() {
+  // 1. Work Mode label
+  const activeTypes = [];
+  if (state.filters.jobTypes.remote) activeTypes.push('REMOTE');
+  if (state.filters.jobTypes.hybrid) activeTypes.push('HYBRID');
+  if (state.filters.jobTypes.onsite) activeTypes.push('ON-SITE');
+  
+  const workModeLabel = document.getElementById('label-work-mode');
+  if (workModeLabel) {
+    if (activeTypes.length === 3) {
+      workModeLabel.textContent = 'WORK MODE: ALL';
+    } else if (activeTypes.length === 0) {
+      workModeLabel.textContent = 'WORK MODE: NONE';
+    } else {
+      workModeLabel.textContent = `WORK MODE: ${activeTypes.join(', ')}`;
+    }
+  }
+
+  // 2. Location label
+  const locLabel = document.getElementById('label-location');
+  if (locLabel) {
+    const activeLoc = state.filters.location;
+    if (activeLoc === 'all') locLabel.textContent = 'LOCATION: ALL';
+    else if (activeLoc === 'remote') locLabel.textContent = 'LOCATION: REMOTE';
+    else if (activeLoc === 'india') locLabel.textContent = 'LOCATION: INDIA';
+    else if (activeLoc === 'us_eu') locLabel.textContent = 'LOCATION: US / EU / OTHER';
+  }
+
+  // 3. Experience label
+  const expLabel = document.getElementById('label-experience');
+  if (expLabel) {
+    const activeExp = state.filters.experience;
+    if (activeExp === 'all') expLabel.textContent = 'EXPERIENCE: ALL LEVELS';
+    else if (activeExp === 'entry') expLabel.textContent = 'EXPERIENCE: ENTRY (0-2Y)';
+    else if (activeExp === 'mid') expLabel.textContent = 'EXPERIENCE: MID-LEVEL (2-5Y)';
+    else if (activeExp === 'senior') expLabel.textContent = 'EXPERIENCE: SENIOR (5Y+)';
+  }
+
+  // 4. Salary label
+  const salLabel = document.getElementById('label-salary');
+  if (salLabel) {
+    const val = state.filters.minSalary;
+    salLabel.textContent = val === 0 ? 'SALARY: ANY' : `SALARY: ₹${val}L+ / $${val * 12}k+`;
+  }
+}
+
 // Setup Filters & Search Listeners
 function setupFilterListeners() {
   // Global search input
@@ -121,18 +195,20 @@ function setupFilterListeners() {
     });
   }
 
-  // Checkbox Filters (Platforms)
-  document.querySelectorAll('[data-filter="platform"]').forEach(cb => {
+  // Checkbox Filters (Work Mode)
+  document.querySelectorAll('[data-filter="jobtype"]').forEach(cb => {
     cb.addEventListener('change', (e) => {
-      state.filters.platforms[e.target.id.replace('cb-', '')] = e.target.checked;
+      state.filters.jobTypes[e.target.id.replace('cb-', '')] = e.target.checked;
+      updateDropdownLabels();
       applyFilters();
     });
   });
 
-  // Checkbox Filters (Job Types)
-  document.querySelectorAll('[data-filter="jobtype"]').forEach(cb => {
-    cb.addEventListener('change', (e) => {
-      state.filters.jobTypes[e.target.id.replace('cb-', '')] = e.target.checked;
+  // Location radio buttons
+  document.querySelectorAll('input[name="location-filter"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      state.filters.location = e.target.value;
+      updateDropdownLabels();
       applyFilters();
     });
   });
@@ -141,6 +217,7 @@ function setupFilterListeners() {
   document.querySelectorAll('input[name="experience"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       state.filters.experience = e.target.value;
+      updateDropdownLabels();
       applyFilters();
     });
   });
@@ -152,7 +229,8 @@ function setupFilterListeners() {
     salaryRange.addEventListener('input', (e) => {
       const val = parseInt(e.target.value);
       state.filters.minSalary = val;
-      salaryValLabel.textContent = val === 0 ? "Any Salary" : `₹${val}L+ / $${val * 12}k+`;
+      salaryValLabel.textContent = val === 0 ? "ANY SALARY" : `₹${val}L+ / $${val * 12}k+`;
+      updateDropdownLabels();
       applyFilters();
     });
   }
@@ -162,9 +240,9 @@ function setupFilterListeners() {
 async function initDashboard() {
   const listEl = document.getElementById('job-list-container');
   if (listEl) {
-    listEl.innerHTML = `<div class="job-card skeleton" style="height: 150px; margin-bottom: 16px;"></div>
-                        <div class="job-card skeleton" style="height: 150px; margin-bottom: 16px;"></div>
-                        <div class="job-card skeleton" style="height: 150px;"></div>`;
+    listEl.innerHTML = `<div class="job-card skeleton" style="height: 140px; margin-bottom: 16px;"></div>
+                        <div class="job-card skeleton" style="height: 140px; margin-bottom: 16px;"></div>
+                        <div class="job-card skeleton" style="height: 140px;"></div>`;
   }
 
   try {
@@ -182,20 +260,19 @@ async function initDashboard() {
     // 2. Fetch live global remote jobs from Remotive API (keyless CORS enabled API)
     let liveRemoteJobs = [];
     try {
-      const res = await fetch('https://remotive.com/api/remote-jobs?limit=25');
+      const res = await fetch('https://remotive.com/api/remote-jobs?limit=40');
       if (res.ok) {
         const data = await res.json();
         liveRemoteJobs = data.jobs.map(job => {
-          // Normalise Remotive jobs
           return {
             id: 'remotive-' + job.id,
             title: job.title,
             company: job.company_name,
             location: job.candidate_required_location || 'Remote',
             salary: job.salary || "$75,000 - $110,000",
-            experience: job.tags.includes('senior') ? '5+ years' : '1-4 years',
+            experience: job.tags.includes('senior') ? '5y+' : '2-5 years',
             source: 'RemoteJobs',
-            url: job.url,
+            url: job.url, // Remotive direct job URL
             date: job.publication_date,
             description: job.description.replace(/<[^>]*>/g, '').substring(0, 400) + '...',
             ratings: generateMockRatings(job.company_name)
@@ -252,14 +329,24 @@ function applyFilters() {
       job.company.toLowerCase().includes(q) || 
       job.description.toLowerCase().includes(q);
 
-    // 2. Platform match
-    const platformKey = job.source.toLowerCase(); // linkedin, naukri, remotejobs
-    const matchesPlatform = state.filters.platforms[platformKey] === true;
-
-    // 3. Job Type match
+    // 2. Job Location Filter match
     const loc = job.location.toLowerCase();
-    const isRemote = loc.includes('remote') || job.source === 'RemoteJobs';
-    const isHybrid = loc.includes('hybrid');
+    const isRemoteLoc = loc.includes('remote') || job.source === 'RemoteJobs';
+    const isIndiaLoc = loc.includes('india') || loc.includes('bangalore') || loc.includes('gurgaon') || loc.includes('noida') || loc.includes('mumbai');
+    
+    let matchesLocation = true;
+    if (state.filters.location === 'remote') {
+      matchesLocation = isRemoteLoc;
+    } else if (state.filters.location === 'india') {
+      matchesLocation = isIndiaLoc;
+    } else if (state.filters.location === 'us_eu') {
+      matchesLocation = !isIndiaLoc && !isRemoteLoc;
+    }
+
+    // 3. Work Mode match
+    const locLower = job.location.toLowerCase();
+    const isRemote = locLower.includes('remote') || job.source === 'RemoteJobs';
+    const isHybrid = locLower.includes('hybrid');
     const isOnsite = !isRemote && !isHybrid;
     
     let matchesType = false;
@@ -283,7 +370,6 @@ function applyFilters() {
     if (state.filters.minSalary > 0) {
       const numericSalaries = extractSalaries(job.salary);
       const thresholdVal = state.filters.minSalary * 100000; // e.g. 5L = 500,000 INR
-      // For USD, translate minSalary filter (1L INR approx equals $1200 USD)
       const thresholdUSD = state.filters.minSalary * 1200;
       
       if (job.salary.includes('₹') || job.salary.toLowerCase().includes('lakh')) {
@@ -293,7 +379,7 @@ function applyFilters() {
       }
     }
 
-    return matchesQuery && matchesPlatform && matchesType && matchesExp && matchesSalary;
+    return matchesQuery && matchesLocation && matchesType && matchesExp && matchesSalary;
   });
 
   // Sort
@@ -304,10 +390,6 @@ function applyFilters() {
       return extractSalaries(b.salary).max - extractSalaries(a.salary).max;
     } else if (state.sorting === 'rating') {
       return b.ratings.ambitionbox - a.ratings.ambitionbox;
-    } else if (state.sorting === 'match') {
-      const matchA = getComputedMatchScore(a);
-      const matchB = getComputedMatchScore(b);
-      return matchB - matchA;
     }
     return 0;
   });
@@ -320,7 +402,6 @@ function extractSalaries(salaryStr) {
   if (!salaryStr || salaryStr.toLowerCase().includes('not specified')) {
     return { min: 0, max: 0 };
   }
-  // Remove formatting characters
   const cleanStr = salaryStr.replace(/,/g, '').replace(/₹/g, '').replace(/\$/g, '').toLowerCase();
   const nums = cleanStr.match(/\d+/g);
   if (!nums) return { min: 0, max: 0 };
@@ -328,7 +409,6 @@ function extractSalaries(salaryStr) {
   let min = parseInt(nums[0]);
   let max = nums[1] ? parseInt(nums[1]) : min;
 
-  // Scale if expressed in Lakhs or Millions
   if (salaryStr.includes('L') || salaryStr.includes('Lakh') || salaryStr.includes('Lakhs') || salaryStr.includes('L+')) {
     min *= 100000;
     max *= 100000;
@@ -337,13 +417,6 @@ function extractSalaries(salaryStr) {
     max *= 1000;
   }
   return { min, max };
-}
-
-// Helper to check match score from storage or dynamic calculation
-function getComputedMatchScore(job) {
-  const resumeText = document.getElementById('resume-text')?.value || '';
-  if (!resumeText) return 75 + (job.company.charCodeAt(0) % 20); // Base mock score if resume empty
-  return computeATSScore(resumeText, job.description);
 }
 
 // Render Job List
@@ -356,9 +429,9 @@ function renderJobs() {
 
   if (state.filteredJobs.length === 0) {
     container.innerHTML = `
-      <div style="text-align: center; padding: 48px; border: 1px dashed var(--glass-border); border-radius: var(--radius-lg); background: var(--glass-bg);">
-        <p style="color: var(--text-secondary); margin-bottom: 8px;">No job openings found matching your filters.</p>
-        <span style="font-size: 13px; color: var(--text-muted);">Try loosening your experience, salary threshold, or keywords.</span>
+      <div style="text-align: center; padding: 48px; border: 1px dashed var(--border); border-radius: var(--radius-lg); background: var(--bg-card);">
+        <p style="color: var(--muted-foreground); margin-bottom: 8px;">No job openings found matching your filters.</p>
+        <span style="font-size: 13px; color: var(--muted-foreground);">Try loosening your experience, salary threshold, or keywords.</span>
       </div>
     `;
     return;
@@ -367,7 +440,6 @@ function renderJobs() {
   container.innerHTML = state.filteredJobs.map((job, idx) => {
     const formattedSalary = formatSalaryDisplay(job.salary, job.location);
     const dateFormatted = timeAgo(job.date);
-    const matchScore = getComputedMatchScore(job);
     const paddedIndex = String(idx + 1).padStart(2, '0');
 
     return `
@@ -375,8 +447,8 @@ function renderJobs() {
         <div class="decorative-num">${paddedIndex}</div>
         <div class="job-card-main">
           <div class="job-card-header">
-            <h3 class="job-title">${escapeHTML(job.title)}</h3>
-            <a href="${getSourceHomepage(job.source)}" target="_blank" class="source-badge ${job.source.toLowerCase()}" style="text-decoration: none;" title="Visit official ${job.source} portal">${job.source}</a>
+            <a href="${job.url}" target="_blank" class="job-title" style="text-decoration: none;">${escapeHTML(job.title)}</a>
+            <span class="source-badge ${job.source.toLowerCase()}" title="Job Source: ${job.source}">${job.source}</span>
           </div>
           <div class="company-row">
             <span class="company-name">${escapeHTML(job.company)}</span>
@@ -396,7 +468,7 @@ function renderJobs() {
             </div>
             <div class="meta-item">
               <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-              <span style="font-weight: 600; color: var(--accent);">${formattedSalary}</span>
+              <span style="font-weight: 600; color: var(--accent-cyan);">${formattedSalary}</span>
             </div>
             <div class="meta-item">
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -406,11 +478,7 @@ function renderJobs() {
           <p class="job-summary">${escapeHTML(job.description)}</p>
         </div>
         <div class="job-card-actions">
-          <div class="match-score-badge">
-            <div class="match-score-num">${matchScore}%</div>
-            <div class="match-score-label">Match Score</div>
-          </div>
-          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end;">
+          <div style="display:flex; flex-direction:column; gap:8px; align-items:flex-end; height: 100%; justify-content: space-between;">
             <a href="${job.url}" target="_blank" class="apply-button">
               <span>View & Apply</span>
               <svg style="width:14px; height:14px; stroke:currentColor; stroke-width:2.5; fill:none;" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
@@ -435,8 +503,6 @@ function formatSalaryDisplay(salaryStr, location) {
 
   if (state.pppMode) {
     if (isUSD) {
-      // Convert USD to INR adjusted for Purchasing Power Parity (PPP)
-      // e.g., $100,000 USD is equivalent to $100,000 * 23 INR = ₹23,00,000 INR local purchasing power
       const nums = salaryStr.replace(/,/g, '').match(/\d+/g);
       if (!nums) return salaryStr;
       const minPPP = (parseInt(nums[0]) * PPP_MULTIPLIER / 1000).toFixed(0);
@@ -444,14 +510,12 @@ function formatSalaryDisplay(salaryStr, location) {
       
       return `₹${minPPP}L - ₹${maxPPP}L (PPP Adj.)`;
     } else if (isINR) {
-      // Local INR values are already adjusted to Indian baseline
       return salaryStr + " (Local Base)";
     }
   }
 
-  // Standard/Market Display Mode
+  // Standard Mode
   if (isUSD && !salaryStr.includes('₹')) {
-    // Show standard USD and converted market INR values side-by-side
     const nums = salaryStr.replace(/,/g, '').match(/\d+/g);
     if (!nums) return salaryStr;
     const minINR = (parseInt(nums[0]) * REAL_USD_TO_INR / 100000).toFixed(1);
@@ -470,13 +534,12 @@ function escapeHTML(str) {
   );
 }
 
-// Helper: Human-readable timestamp
+// Helper: Human-readable hourly timestamp
 function timeAgo(dateStr) {
   const diff = Date.now() - new Date(dateStr).getTime();
-  const days = Math.floor(diff / 86400000);
-  if (days === 0) return 'Today';
-  if (days === 1) return 'Yesterday';
-  return `${days} days ago`;
+  const hrs = Math.floor(diff / 3600000);
+  if (hrs <= 0) return '1h ago';
+  return `${hrs}h ago`;
 }
 
 // AmbitionBox rating modal display
@@ -504,7 +567,7 @@ window.openRatingModal = function(companyName) {
       <div class="rating-row">
         <div class="rating-row-labels">
           <span>${k.label}</span>
-          <span style="font-weight: 600; color: var(--color-accent);">${k.val} / 5.0</span>
+          <span style="font-weight: 600; color: var(--accent-cyan);">${k.val} / 5.0</span>
         </div>
         <div class="progress-bar-bg">
           <div class="progress-bar-fill" style="width: ${(k.val / 5.0) * 100}%"></div>
@@ -520,7 +583,7 @@ window.closeRatingModal = function() {
   document.getElementById('rating-modal').classList.remove('active');
 };
 
-// ATS Resume Matcher Logic
+// ATS Resume Matcher Logic (Strictly client-side)
 function updateMatcherJobSelect() {
   const select = document.getElementById('matcher-job-select');
   if (!select) return;
@@ -539,7 +602,7 @@ function updateMatcherJobSelect() {
   });
 }
 
-// Simple keyword extractor NLP simulation (Running completely client-side for privacy and speed)
+// Simple keyword extractor NLP simulation
 function extractKeywords(text) {
   const words = text.toLowerCase()
     .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"\d]/g, '')
@@ -548,49 +611,15 @@ function extractKeywords(text) {
   return [...new Set(words.filter(w => w.length > 2 && !STOP_WORDS.has(w)))];
 }
 
-// Compute ATS Score between Resume and Job Description
-function computeATSScore(resumeText, jobDesc) {
-  if (!resumeText || !jobDesc) return 0;
-  const resumeWords = new Set(extractKeywords(resumeText));
-  const descWords = extractKeywords(jobDesc);
-
-  if (descWords.length === 0) return 100;
-  
-  let matches = 0;
-  descWords.forEach(word => {
-    if (resumeWords.has(word)) {
-      matches++;
-    }
-  });
-
-  return Math.round((matches / descWords.length) * 100);
-}
-
-// Run analysis inside the matcher tab
+// Run analysis inside the matcher tab (No Match Score percentage)
 window.runMatcherAnalysis = function() {
   const resumeText = document.getElementById('resume-text').value;
   const job = state.selectedJobForMatcher;
   if (!job) return;
 
-  const scoreGauge = document.getElementById('matcher-score');
   const matchedList = document.getElementById('matched-keywords-list');
   const missingList = document.getElementById('missing-keywords-list');
   const pitchBox = document.getElementById('pitch-box');
-
-  const score = computeATSScore(resumeText, job.description);
-  scoreGauge.textContent = `${score}%`;
-
-  // Animate Gauge Glow Colors based on performance
-  if (score >= 80) {
-    scoreGauge.style.color = 'var(--color-success)';
-    scoreGauge.style.textShadow = '0 0 15px rgba(16, 185, 129, 0.4)';
-  } else if (score >= 50) {
-    scoreGauge.style.color = 'var(--color-warning)';
-    scoreGauge.style.textShadow = '0 0 15px rgba(245, 158, 11, 0.4)';
-  } else {
-    scoreGauge.style.color = 'var(--color-danger)';
-    scoreGauge.style.textShadow = '0 0 15px rgba(239, 68, 68, 0.4)';
-  }
 
   // Keywords highlighting
   const jobKeywords = extractKeywords(job.description);
@@ -609,17 +638,17 @@ window.runMatcherAnalysis = function() {
 
   matchedList.innerHTML = matched.length > 0 
     ? matched.map(k => `<span class="keyword-pill matched">${escapeHTML(k)}</span>`).join('')
-    : '<span style="color:var(--text-muted); font-size:13px;">None identified yet. Add more detail.</span>';
+    : '<span style="color:var(--muted-foreground); font-size:13px;">None identified yet. Add more detail.</span>';
 
   missingList.innerHTML = missing.length > 0
     ? missing.map(k => `<span class="keyword-pill missing">${escapeHTML(k)}</span>`).join('')
-    : '<span style="color:var(--text-muted); font-size:13px;">None! Perfect keyword matching.</span>';
+    : '<span style="color:var(--muted-foreground); font-size:13px;">None! Perfect keyword matching.</span>';
 
   // Cover Letter Generator
   if (resumeText) {
     pitchBox.innerHTML = generateTailoredCoverLetter(job, matched);
   } else {
-    pitchBox.innerHTML = `<span style="color:var(--text-muted)">Paste your resume on the left panel to auto-generate a personalized email pitch tailored to ${job.company}'s hiring manager.</span>`;
+    pitchBox.innerHTML = `<span style="color:var(--muted-foreground)">Paste your resume on the left panel to auto-generate a personalized email pitch tailored to ${job.company}'s hiring manager.</span>`;
   }
 };
 
@@ -705,12 +734,12 @@ function renderKanbanBoard() {
       <div class="kanban-card" draggable="true" data-id="${job.id}" id="kanban-card-${job.id}">
         <div style="display:flex; justify-content:space-between; align-items:flex-start;">
           <h4 class="kanban-card-title">${escapeHTML(job.title)}</h4>
-          <button onclick="removeKanbanCard('${col}', '${job.id}')" style="background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:14px; font-weight:700;">×</button>
+          <button onclick="removeKanbanCard('${col}', '${job.id}')" style="background:transparent; border:none; color:var(--muted-foreground); cursor:pointer; font-size:14px; font-weight:700;">×</button>
         </div>
         <div class="kanban-card-company">${escapeHTML(job.company)}</div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-          <a href="${getSourceHomepage(job.source)}" target="_blank" class="source-badge ${job.source.toLowerCase()}" style="font-size:9px; padding:1px 5px; text-decoration: none;" title="Visit official ${job.source} portal">${job.source}</a>
-          <a href="${job.url}" target="_blank" style="font-size:10px; color:var(--color-accent); text-decoration:none; display:flex; align-items:center; gap:2px;">
+          <span class="source-badge ${job.source.toLowerCase()}" style="font-size:9px; padding:1px 5px;" title="Job Source: ${job.source}">${job.source}</span>
+          <a href="${job.url}" target="_blank" style="font-size:10px; color:var(--accent-cyan); text-decoration:none; display:flex; align-items:center; gap:2px; font-weight: 600;">
             <span>Apply</span>
             <svg style="width:10px; height:10px; stroke:currentColor; stroke-width:3; fill:none;" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
           </a>
@@ -776,40 +805,43 @@ function runTerminalSimulation() {
   const body = document.getElementById('terminal-body-content');
   if (!body) return;
   
-  // Clear any existing simulation interval
   if (terminalInterval) clearInterval(terminalInterval);
 
-  body.innerHTML = `[SYSTEM] Last Signature Scraper CLI ready. Initiating scanner stack...<br>`;
+  body.innerHTML = `[SYSTEM] Last Signature Scraper CLI ready. Ingesting active lists...<br>`;
   
   const logs = [
-    `[NETWORK] Spinning up secure crawler engine. Local IP: 192.168.1.104.`,
-    `[SECURITY] Resolving User-Agent profiles and CORS request bypass headers.`,
-    `[LINKEDIN] Querying search endpoint for "India/Worldwide" software engineering roles.`,
-    `[LINKEDIN] Anti-scraping firewall challenge detected. Attempting bypass using cookie injection.`,
-    `[LINKEDIN] Status: Connection OK. Parsing RSS items...`,
-    `[REMOTEJOBS] Fetching programming categories from WeWorkRemotely feed...`,
-    `[REMOTEJOBS] Successfully ingested WeWorkRemotely RSS feed. 25 listings detected.`,
-    `[NAUKRI] Fetching HTML index from "naukri.com/javascript-developer-jobs-in-india"...`,
-    `[NAUKRI] HTTP 403 (Forbidden) encountered. Cloudflare Security Shield active.`,
-    `[NAUKRI] Fallback triggered. Pulling cached public RSS data and verified seed listings...`,
-    `[DATABASE] Writing parsed listings to local buffer file: jobs.json.`,
-    `[SYSTEM] Scanner cycle completed. Aggregated a total of 30 unique job opportunities!`,
-    `[SYSTEM] Database written to disc. File size: 12.3 KB. Ready for web consumption.`
+    `[NETWORK] Initializing scraper stack. Target: All remote channels.`,
+    `[SECURITY] Applying rotate user-agent strategy to bypass anti-scraping triggers.`,
+    `[WEWORKREMOTELY] Crawling /remote-programming-jobs.rss ...`,
+    `[WEWORKREMOTELY] Parsed 25 listings from Programming RSS.`,
+    `[WEWORKREMOTELY] Crawling /remote-design-jobs.rss ...`,
+    `[WEWORKREMOTELY] Parsed 24 listings from Design RSS.`,
+    `[WEWORKREMOTELY] Crawling /remote-product-jobs.rss ...`,
+    `[WEWORKREMOTELY] Parsed 24 listings from Product RSS.`,
+    `[WEWORKREMOTELY] Crawling /remote-customer-support-jobs.rss ...`,
+    `[WEWORKREMOTELY] Parsed 36 listings from Customer Support RSS.`,
+    `[REMOTE.CO] Ingesting RSS channels for Design and Developers...`,
+    `[REMOTEOK] Pulling from official remoteok.com JSON feed...`,
+    `[REMOTEOK] Successfully loaded 100 items from RemoteOK.`,
+    `[DATABASE] Filtering duplicates and merging seeded local Greenhouse/Lever databases...`,
+    `[DATABASE] Writing job opportunities directly into: jobs.json`,
+    `[SYSTEM] Scanner run complete. Compiled 194 unique opportunity links successfully.`,
+    `[SYSTEM] Database written to disk. Ready to display.`
   ];
 
   let index = 0;
   terminalInterval = setInterval(() => {
     if (index < logs.length) {
       body.innerHTML += `${logs[index]}<br>`;
-      body.scrollTop = body.scrollHeight; // Auto-scroll to bottom
+      body.scrollTop = body.scrollHeight; 
       index++;
     } else {
       clearInterval(terminalInterval);
     }
-  }, 1200);
+  }, 900);
 }
 
-// Trigger browser scraper running via command invocation
+// Trigger client scan simulation
 window.triggerClientScan = async function() {
   const scanBtn = document.querySelector('.scan-now-btn');
   if (!scanBtn) return;
@@ -820,7 +852,6 @@ window.triggerClientScan = async function() {
     Scanning...
   `;
 
-  // Inject rotation animation styles
   if (!document.getElementById('spin-keyframe')) {
     const style = document.createElement('style');
     style.id = 'spin-keyframe';
@@ -828,29 +859,18 @@ window.triggerClientScan = async function() {
     document.head.appendChild(style);
   }
 
-  // Visual delay representing real scan running
   setTimeout(async () => {
-    await initDashboard(); // Reload jobs from jobs.json
+    await initDashboard(); 
     scanBtn.disabled = false;
     scanBtn.innerHTML = `
       <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
       Scan Feeds
     `;
-    alert("Live scan complete! Job listings populated inside dashboard.");
+    alert("Aggregated database successfully updated! Loaded 194 listings.");
   }, 2000);
 };
 
-// Get platform homepage for attribution
-function getSourceHomepage(source) {
-  const s = source.toLowerCase();
-  if (s === 'linkedin') return 'https://www.linkedin.com/jobs';
-  if (s === 'naukri') return 'https://www.naukri.com';
-  if (s === 'weworkremotely') return 'https://weworkremotely.com';
-  if (s === 'remotejobs') return 'https://remote.co';
-  return '#';
-}
-
-// Copy function for prompt generator inside Technical Report
+// Copy prompt generator
 window.copyPromptText = function() {
   const code = document.getElementById('llm-prompt-code').innerText;
   navigator.clipboard.writeText(code)
