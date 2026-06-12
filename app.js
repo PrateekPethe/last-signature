@@ -368,9 +368,11 @@ function renderJobs() {
     const formattedSalary = formatSalaryDisplay(job.salary, job.location);
     const dateFormatted = timeAgo(job.date);
     const matchScore = getComputedMatchScore(job);
+    const postItClass = matchScore >= 80 ? 'post-it-yellow' : '';
 
     return `
-      <div class="job-card" data-id="${job.id}">
+      <div class="job-card ${postItClass}" data-id="${job.id}">
+        <div class="tape-decoration"></div>
         <div class="job-card-main">
           <div class="job-card-header">
             <h3 class="job-title">${escapeHTML(job.title)}</h3>
@@ -652,7 +654,7 @@ window.copyPitchText = function() {
 
 // Kanban Board Application Tracker Drag & Drop
 function loadKanbanState() {
-  const local = localStorage.getItem('jobradar_kanban');
+  const local = localStorage.getItem('lastsignature_kanban');
   if (local) {
     try {
       state.kanban = JSON.parse(local);
@@ -663,7 +665,7 @@ function loadKanbanState() {
 }
 
 function saveKanbanState() {
-  localStorage.setItem('jobradar_kanban', JSON.stringify(state.kanban));
+  localStorage.setItem('lastsignature_kanban', JSON.stringify(state.kanban));
 }
 
 window.saveToKanban = function(jobId) {
@@ -777,7 +779,7 @@ function runTerminalSimulation() {
   // Clear any existing simulation interval
   if (terminalInterval) clearInterval(terminalInterval);
 
-  body.innerHTML = `[SYSTEM] Scraper CLI console ready. Initiating scanner stack...<br>`;
+  body.innerHTML = `[SYSTEM] Last Signature Scraper CLI ready. Initiating scanner stack...<br>`;
   
   const logs = [
     `[NETWORK] Spinning up secure crawler engine. Local IP: 192.168.1.104.`,

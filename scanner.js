@@ -143,7 +143,7 @@ function generateMockRatings(companyName) {
 
 async function runScanner() {
   console.log("=========================================");
-  console.log("   🚀 JOB RADAR - SCANNING RUNNING...    ");
+  console.log("  🚀 LAST SIGNATURE - SCANNER RUNNING... ");
   console.log("=========================================");
   
   let aggregatedJobs = [...indianSeedJobs];

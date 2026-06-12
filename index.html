@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JobRadar | Premium Job Aggregator & AI Matcher</title>
+  <title>Last Signature | Job Search Aggregator & AI Resume Matcher</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,40 +16,40 @@
         <div class="logo-container">
           <div class="logo-icon">
             <svg viewBox="0 0 24 24">
-              <path d="M12 2L2 22h20L12 2z" stroke="#fff" stroke-width="2" fill="none" stroke-linejoin="round"/>
-              <circle cx="12" cy="13" r="3" fill="#fff"/>
+              <path d="M12 2L2 22h20L12 2z" stroke="#2d2d2d" stroke-width="3" fill="none" stroke-linejoin="round"/>
+              <path d="M12 18l-3-3h6l-3 3z" fill="#2d2d2d"/>
             </svg>
           </div>
-          <span class="logo-text">JobRadar</span>
+          <span class="logo-text">Last Signature</span>
         </div>
         
         <ul class="nav-menu">
           <li class="nav-item active" data-tab="dashboard">
-            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-            <span>Dashboard</span>
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/></svg>
+            <span>I. Dashboard</span>
           </li>
           <li class="nav-item" data-tab="matcher">
             <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span>AI Resume Matcher</span>
+            <span>II. Resume Matcher</span>
           </li>
           <li class="nav-item" data-tab="kanban">
             <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
-            <span>Kanban Tracker</span>
+            <span>III. Kanban Tracker</span>
           </li>
           <li class="nav-item" data-tab="scrapers">
             <svg viewBox="0 0 24 24"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
-            <span>Scrapers Console</span>
+            <span>IV. Scrapers Console</span>
           </li>
           <li class="nav-item" data-tab="report">
             <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            <span>Technical Report</span>
+            <span>V. Technical Report</span>
           </li>
         </ul>
       </div>
 
       <!-- Compliance Disclaimer -->
-      <div style="padding: 12px; font-size: 10px; color: var(--text-muted); border-top: 1px solid var(--glass-border); line-height: 1.4; margin-top: auto; border-bottom: 1px solid var(--glass-border);">
-        Disclaimer: JobRadar aggregates listings for educational purposes. All job details, trademarks, and company ratings are properties of their respective platforms (LinkedIn, Naukri, AmbitionBox, Glassdoor). Apply links route directly to official portals.
+      <div style="padding: 12px; font-size: 11px; color: var(--text-muted); border-top: 3px dashed var(--border); line-height: 1.4; margin-top: auto; border-bottom: 3px dashed var(--border); font-family: var(--font-body);">
+        Disclaimer: Last Signature aggregates listings for educational purposes. All job details, trademarks, and company ratings are properties of their respective platforms (LinkedIn, Naukri, AmbitionBox, Glassdoor). Apply links route directly to official portals.
       </div>
 
       <div class="sidebar-footer">
@@ -94,7 +94,8 @@
           
           <!-- Filters sidebar -->
           <aside class="filters-card">
-            <h3 style="font-size: 16px; font-weight: 700; border-bottom: 1px solid var(--glass-border); padding-bottom: 8px;">Filters</h3>
+            <div class="tack-decoration"></div>
+            <h3 style="font-family: var(--font-heading); font-size: 20px; font-weight: 700; border-bottom: 2px dashed var(--border); padding-bottom: 8px; text-align: center;">Filters</h3>
             
             <!-- Sources platforms -->
             <div class="filter-group">
@@ -139,22 +140,22 @@
             <!-- Experience range -->
             <div class="filter-group">
               <span class="filter-label">Experience Required</span>
-              <label class="custom-checkbox" style="font-size:13px;">
+              <label class="custom-checkbox" style="font-size:15px;">
                 <input type="radio" name="experience" value="all" checked>
                 <span class="checkmark" style="border-radius:50%"></span>
                 All levels
               </label>
-              <label class="custom-checkbox" style="font-size:13px;">
+              <label class="custom-checkbox" style="font-size:15px;">
                 <input type="radio" name="experience" value="entry">
                 <span class="checkmark" style="border-radius:50%"></span>
                 Entry / Intern (0-2y)
               </label>
-              <label class="custom-checkbox" style="font-size:13px;">
+              <label class="custom-checkbox" style="font-size:15px;">
                 <input type="radio" name="experience" value="mid">
                 <span class="checkmark" style="border-radius:50%"></span>
                 Mid-level (2-5y)
               </label>
-              <label class="custom-checkbox" style="font-size:13px;">
+              <label class="custom-checkbox" style="font-size:15px;">
                 <input type="radio" name="experience" value="senior">
                 <span class="checkmark" style="border-radius:50%"></span>
                 Senior / Lead (5y+)
@@ -204,12 +205,13 @@
           
           <!-- Resume Input Card -->
           <div class="matcher-input-card">
-            <h3 style="font-size:16px; font-weight:700;">ATS Resume Scanner</h3>
-            <p style="font-size:13px; color:var(--text-secondary);">Paste your resume text here to analyze keyword matching and auto-generate application pitches.</p>
+            <div class="tack-decoration"></div>
+            <h3 style="font-family: var(--font-heading); font-size:20px; font-weight:700; text-align:center;">ATS Resume Scanner</h3>
+            <p style="font-size:15px; color:var(--text-secondary); text-align:center;">Paste your resume text here to analyze keyword matching and auto-generate application pitches.</p>
             <textarea id="resume-text" class="resume-textarea" placeholder="Paste resume plain text (skills, work history, experience)..."></textarea>
             
             <div style="display:flex; flex-direction:column; gap:8px;">
-              <span class="filter-label" style="font-size:12px;">Compare against job:</span>
+              <span class="filter-label" style="font-size:14px;">Compare against job:</span>
               <select id="matcher-job-select" class="sort-select" style="width:100%; padding:10px;"></select>
             </div>
             
@@ -219,32 +221,36 @@
           <!-- Matching Results Card -->
           <div class="matcher-results">
             <div class="report-section" style="padding:24px; display:flex; justify-content:space-between; align-items:center;">
+              <div class="tape-decoration"></div>
               <div>
-                <h2>ATS Match Score Analysis</h2>
-                <p style="font-size:13px; margin:0;">Calculates keyword coverage on required frameworks, programming languages, and credentials.</p>
+                <h2 style="font-family: var(--font-heading);">ATS Match Score Analysis</h2>
+                <p style="font-size:15px; margin:0; color:var(--text-secondary);">Calculates keyword coverage on required frameworks, programming languages, and credentials.</p>
               </div>
               <div class="match-score-badge" style="width:100px; height:100px; display:flex; flex-direction:column; justify-content:center; align-items:center; border-radius:50%; background:var(--bg-primary);">
-                <div id="matcher-score" style="font-size:26px; font-weight:700; font-family:var(--font-mono); color:var(--color-primary)">0%</div>
-                <div class="match-score-label" style="font-size:8px;">ATS Match</div>
+                <div id="matcher-score" style="font-size:28px; font-weight:700; font-family:var(--font-heading); color:var(--color-secondary-accent)">0%</div>
+                <div class="match-score-label" style="font-size:10px;">ATS Match</div>
               </div>
             </div>
 
             <!-- Highlight Columns -->
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
               <div class="report-section" style="padding:20px;">
-                <h3 style="margin:0 0 10px 0; color:var(--color-success)">Matched Keywords</h3>
+                <div class="tack-decoration"></div>
+                <h3 style="margin:0 0 10px 0; font-family: var(--font-heading); color:var(--color-success)">Matched Keywords</h3>
                 <div id="matched-keywords-list" class="keyword-pill-container"></div>
               </div>
               <div class="report-section" style="padding:20px;">
-                <h3 style="margin:0 0 10px 0; color:var(--color-warning)">Missing Keywords (Add to resume)</h3>
+                <div class="tack-decoration"></div>
+                <h3 style="margin:0 0 10px 0; font-family: var(--font-heading); color:var(--color-accent)">Missing Keywords (Add to resume)</h3>
                 <div id="missing-keywords-list" class="keyword-pill-container"></div>
               </div>
             </div>
 
             <!-- Generated Pitch -->
             <div class="report-section" style="padding:24px;">
-              <div style="display:flex; justify-content:between; align-items:center; margin-bottom:12px;">
-                <h2 style="margin:0; font-size:18px;">Tailored Application Pitch</h2>
+              <div class="tape-decoration"></div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                <h2 style="margin:0; font-size:20px; font-family: var(--font-heading);">Tailored Application Pitch</h2>
                 <button class="code-copy-btn" onclick="copyPitchText()" style="position:static;">Copy Pitch</button>
               </div>
               <div class="code-copy-box" style="white-space:pre-wrap; max-height:250px; overflow-y:auto;" id="pitch-box">
@@ -258,16 +264,16 @@
 
       <!-- TAB: KANBAN BOARD TRACKER -->
       <section id="kanban-tab" class="tab-content">
-        <div style="margin-bottom:20px;">
-          <h2 style="font-size:20px; font-weight:700; margin-bottom:4px;">Applications pipeline</h2>
-          <p style="font-size:13px; color:var(--text-secondary);">Manage your active application pipeline. Drag and drop cards between status columns.</p>
+        <div style="margin-bottom:20px; text-align:center;">
+          <h2 style="font-family: var(--font-heading); font-size:26px; font-weight:700; margin-bottom:4px;">III. Applications Pipeline</h2>
+          <p style="font-size:15px; color:var(--text-secondary);">Manage your active application pipeline. Drag and drop cards between status columns.</p>
         </div>
         <div class="kanban-board-container">
           
           <!-- Wishlist Column -->
           <div class="kanban-column" id="kanban-column-wishlist">
             <div class="column-header">
-              <span class="column-title" style="color:var(--text-secondary)">Wishlist</span>
+              <span class="column-title" style="color:var(--text-muted)">Wishlist</span>
               <span class="column-badge" id="kanban-badge-wishlist">0</span>
             </div>
             <div class="job-list" id="kanban-list-wishlist" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -276,7 +282,7 @@
           <!-- Applied Column -->
           <div class="kanban-column" id="kanban-column-applied">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-accent)">Applied</span>
+              <span class="column-title" style="color:var(--color-secondary-accent)">Applied</span>
               <span class="column-badge" id="kanban-badge-applied">0</span>
             </div>
             <div class="job-list" id="kanban-list-applied" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -285,7 +291,7 @@
           <!-- Interviewing Column -->
           <div class="kanban-column" id="kanban-column-interviewing">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-warning)">Interviewing</span>
+              <span class="column-title" style="color:var(--color-accent)">Interviewing</span>
               <span class="column-badge" id="kanban-badge-interviewing">0</span>
             </div>
             <div class="job-list" id="kanban-list-interviewing" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -303,7 +309,7 @@
           <!-- Rejected Column -->
           <div class="kanban-column" id="kanban-column-rejected">
             <div class="column-header">
-              <span class="column-title" style="color:var(--color-danger)">Rejected</span>
+              <span class="column-title" style="color:var(--color-accent)">Rejected</span>
               <span class="column-badge" id="kanban-badge-rejected">0</span>
             </div>
             <div class="job-list" id="kanban-list-rejected" style="flex-grow:1; min-height:400px; gap:8px;"></div>
@@ -314,9 +320,9 @@
 
       <!-- TAB: SCRAPERS SIMULATOR -->
       <section id="scrapers-tab" class="tab-content">
-        <div style="margin-bottom:20px;">
-          <h2 style="font-size:20px; font-weight:700; margin-bottom:4px;">Local CLI Scraper Console</h2>
-          <p style="font-size:13px; color:var(--text-secondary);">Monitors crawling logs, HTTP proxy rotations, rate limiting, and database compiles during RSS scanner cycles.</p>
+        <div style="margin-bottom:20px; text-align:center;">
+          <h2 style="font-family: var(--font-heading); font-size:26px; font-weight:700; margin-bottom:4px;">IV. Local CLI Scraper Console</h2>
+          <p style="font-size:15px; color:var(--text-secondary);">Monitors crawling logs, HTTP proxy rotations, rate limiting, and database compiles during RSS scanner cycles.</p>
         </div>
         <div class="terminal-container">
           <div class="terminal-header">
@@ -338,13 +344,14 @@
         <div class="report-layout">
           
           <header class="report-header">
-            <h1 style="font-size: 28px; font-weight: 700; background: linear-gradient(to right, #fff, var(--color-accent)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">JobRadar Blueprint & System Report</h1>
-            <p style="color:var(--text-secondary); margin-top:8px;">Complete guide to production scaling, security policies, and custom prompts.</p>
+            <h1 style="font-family: var(--font-heading); font-size: 32px; font-weight: 700; color: var(--text-primary);">V. Last Signature Blueprint & System Report</h1>
+            <p style="color:var(--text-secondary); margin-top:8px; font-size: 16px;">Complete guide to production scaling, security policies, and custom prompts.</p>
           </header>
 
           <article class="report-section">
-            <h2>1. Scraping Strategy & Zero-Cost Architecture</h2>
-            <p>To scale this system without recurring API fees, we implement a self-hosted pipeline using node scripts and free cloud databases:</p>
+            <div class="tape-decoration"></div>
+            <h2>I. Scraping Strategy & Zero-Cost Architecture</h2>
+            <p>To scale this system without recurring API fees, we implement a self-hosted pipeline using Node.js scripts and free cloud databases:</p>
             <ul>
               <li><strong>Local CLI Runner (cheerio/axios):</strong> Instead of browser engines which require significant memory overhead, the RSS feeds of major boards (LinkedIn, WeWorkRemotely, Remote.co) are parsed in node using XML readers. This requires 0 proxies or paid subscription modules.</li>
               <li><strong>Cloudflare & Anti-Bot Bypass:</strong> For strict portals like Naukri, the script uses customized Request Headers (rotating <code>User-Agents</code>, mimicking browser <code>sec-ch-ua</code> signatures). Additionally, a cookie parser pulls active sessions directly from local browsers to bypass session tokens.</li>
@@ -353,7 +360,8 @@
           </article>
 
           <article class="report-section">
-            <h2>2. Database & Semantic Vector Search Indexing</h2>
+            <div class="tape-decoration"></div>
+            <h2>II. Database & Semantic Vector Search Indexing</h2>
             <p>For high-performance filtering and semantic matching in production, we recommend the following free schema:</p>
             <ul>
               <li><strong>PostgreSQL Database:</strong> Store listings using standard fields (Title, Company, Location, Description, Apply URL, Salary, AmbitionBox Score).</li>
@@ -362,36 +370,39 @@
           </article>
 
           <article class="report-section">
-            <h2>3. Security Blueprint & Client Protection</h2>
+            <div class="tape-decoration"></div>
+            <h2>III. Security Blueprint & Client Protection</h2>
             <p>Maintaining security on a free hosting tier is vital to prevent credential theft or browser hijacking:</p>
             <ul>
               <li><strong>Environment Variable Isolation:</strong> In a production deploy, scraping scripts and AI endpoints should be housed in a small backend (Node.js/Express) running on <strong>Render Free Tier</strong> or <strong>Railway Developer Plan</strong>. Sensitive keys (like Google Gemini API keys) are kept in <code>.env</code> variables on the server. The frontend client calls the backend gateway, securing the keys from being inspected in the browser.</li>
-              <li><strong>Cross-Site Scripting (XSS) Mitigation:</strong> All aggregated jobs descriptions contain raw HTML tags from web scrapers. We sanitise this input before rendering to prevent malicious scripts from executing. In this prototype, we use safe text nodes or custom tag replacers (e.g. <code>escapeHTML()</code>).</li>
+              <li><strong>Cross-Site Scripting (XSS) Mitigation:</strong> All aggregated job descriptions contain raw HTML tags from web scrapers. We sanitise this input before rendering to prevent malicious scripts from executing. In this prototype, we use safe text nodes or custom tag replacers (e.g. <code>escapeHTML()</code>).</li>
               <li><strong>Rate-Limiting (DDoS Protection):</strong> Free backend endpoints should use libraries like <code>express-rate-limit</code> to limit client requests to 15 per minute, matching the free tier of the Gemini API and protecting the server from overloading.</li>
             </ul>
           </article>
 
           <article class="report-section">
-            <h2>4. LLM Prompt: System Rebuilder</h2>
+            <div class="tape-decoration"></div>
+            <h2>IV. LLM Prompt: System Rebuilder</h2>
             <p>Use the following highly structured system prompt in Gemini or ChatGPT to recreate or scale this entire application with high visual and layout fidelity:</p>
             
             <div class="code-copy-box">
               <button class="code-copy-btn" onclick="copyPromptText()">Copy Prompt</button>
-              <pre id="llm-prompt-code" style="white-space: pre-wrap; font-family:var(--font-mono); font-size:11px;">You are an expert Frontend Architect specializing in glassmorphism and dashboard design systems. Create a single-page Job Search Aggregator application using Vanilla HTML, CSS, and JS. 
+              <pre id="llm-prompt-code" style="white-space: pre-wrap; font-family:var(--font-mono); font-size:13px;">You are an expert Frontend Architect specializing in wobbly hand-drawn and notebook dashboard design systems. Create a single-page Job Search Aggregator application named "Last Signature" using Vanilla HTML, CSS, and JS. 
 
 DESIGN REQUIREMENTS:
-1. Palette: Slate dark backgrounds (#090d16), glassmorphic card overlays (rgba(30, 41, 59, 0.45)) with custom back-drop blurs. Glowing borders utilizing gradients of violet (#8b5cf6) to cyan (#06b6d4).
-2. Navigation: Sticky sidebar displaying tabs for: Job Dashboard, ATS Matcher, Kanban tracker, and Scrapers console.
-3. Fluid UX: Smooth 60FPS CSS transitions, custom scrollbars, glowing keyframe animations, and linear shimmer skeletons.
+1. Palette: Warm paper background (#fdfbf7), soft pencil lead black (#2d2d2d), correction marker red accent (#ff4d4d), and ballpoint blue secondary accent (#2d5da1).
+2. Notebook Texture: Repeats a subtle grid pattern (radial-gradient of dots at 24px intervals). 
+3. Wobbly Borders: Apply custom irregular border-radius styles to cards, buttons, and badges to ensure NO straight lines exist.
+4. Hard Offset Shadows: Use solid black offsets (4px 4px 0px 0px #2d2d2d) instead of blurred drop shadows. 
+5. Snappy Interactions: Buttons "press flat" (shadow reduces to 0px on active clicks). Cards jiggle (rotate -1deg to 1deg) on hover.
+6. Typography: Import and use Google Fonts "Kalam" for display/headings and "Patrick Hand" for body text.
 
 LOGICAL REQUIREMENTS:
 1. Data Ingestion: Connect directly to a free keyless API (Remotive API) and merge listings with a local 'jobs.json' output.
 2. Filters & Sorts: Search field filtering titles and descriptions. Checkbox filters for Platforms (LinkedIn, Naukri, RemoteJobs) and locations (Remote, Hybrid, On-site). Custom sliders for minimum salaries.
 3. Salary & Cost of Living PPP Converter: Support converting USD job salaries to local Purchasing Power Parity (PPP) in INR, making salaries equivalent based on local cost of living baseline indices.
 4. ATS Semantic Comp: Implement a client-side NLP parser that calculates match percentages, highlights matched/missing keywords, and generates tailored cover letters.
-5. Tracker Kanban Board: Drag-and-drop workflow columns (Wishlist, Applied, Interviewing, Offered, Rejected) synced to browser localStorage.
-
-Deliver clean, production-ready code with responsive grid structures.</pre>
+5. Tracker Kanban Board: Drag-and-drop workflow columns (Wishlist, Applied, Interviewing, Offered, Rejected) synced to browser localStorage.</pre>
             </div>
           </article>
 
@@ -406,28 +417,28 @@ Deliver clean, production-ready code with responsive grid structures.</pre>
   <div class="modal" id="rating-modal">
     <div class="modal-content">
       <div class="modal-header">
-        <h2 id="modal-company-name" style="font-size:22px; font-weight:700;">Company Ratings</h2>
+        <h2 id="modal-company-name" style="font-family: var(--font-heading); font-size:22px; font-weight:700;">Company Ratings</h2>
         <button class="modal-close" onclick="closeRatingModal()">
           <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
         </button>
       </div>
       
-      <p style="font-size:14px; color:var(--text-secondary); margin-bottom:16px;">
+      <p style="font-size:16px; color:var(--text-secondary); margin-bottom:16px;">
         Detailed aggregate scores from employee reviews posted on AmbitionBox and Glassdoor.
       </p>
 
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:24px;">
-        <div class="report-section" style="padding:14px; text-align:center;">
-          <div style="font-size:28px; font-weight:700; color:var(--color-warning);" id="modal-ab-num">4.1</div>
+        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--bg-postit); transform: rotate(1deg);">
+          <div style="font-size:28px; font-weight:700; color:var(--color-accent);" id="modal-ab-num">4.1</div>
           <div class="match-score-label">AmbitionBox Rating</div>
         </div>
-        <div class="report-section" style="padding:14px; text-align:center;">
-          <div style="font-size:28px; font-weight:700; color:var(--color-accent);" id="modal-gd-num">3.9</div>
+        <div class="report-section" style="padding:14px; text-align:center; background-color: var(--bg-postit); transform: rotate(-1deg);">
+          <div style="font-size:28px; font-weight:700; color:var(--color-secondary-accent);" id="modal-gd-num">3.9</div>
           <div class="match-score-label">Glassdoor Rating</div>
         </div>
       </div>
 
-      <h3 class="filter-label">Employee Satisfaction Metrics</h3>
+      <h3 class="filter-label" style="margin-bottom:8px;">Employee Satisfaction Metrics</h3>
       <div class="rating-bars-container" id="rating-rows-container">
         <!-- Filled dynamically -->
       </div>
