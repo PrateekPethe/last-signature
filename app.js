@@ -374,7 +374,7 @@ function renderJobs() {
         <div class="job-card-main">
           <div class="job-card-header">
             <h3 class="job-title">${escapeHTML(job.title)}</h3>
-            <span class="source-badge ${job.source.toLowerCase()}">${job.source}</span>
+            <a href="${getSourceHomepage(job.source)}" target="_blank" class="source-badge ${job.source.toLowerCase()}" style="text-decoration: none;" title="Visit official ${job.source} portal">${job.source}</a>
           </div>
           <div class="company-row">
             <span class="company-name">${escapeHTML(job.company)}</span>
@@ -707,7 +707,7 @@ function renderKanbanBoard() {
         </div>
         <div class="kanban-card-company">${escapeHTML(job.company)}</div>
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px;">
-          <span class="source-badge ${job.source.toLowerCase()}" style="font-size:9px; padding:1px 5px;">${job.source}</span>
+          <a href="${getSourceHomepage(job.source)}" target="_blank" class="source-badge ${job.source.toLowerCase()}" style="font-size:9px; padding:1px 5px; text-decoration: none;" title="Visit official ${job.source} portal">${job.source}</a>
           <a href="${job.url}" target="_blank" style="font-size:10px; color:var(--color-accent); text-decoration:none; display:flex; align-items:center; gap:2px;">
             <span>Apply</span>
             <svg style="width:10px; height:10px; stroke:currentColor; stroke-width:3; fill:none;" viewBox="0 0 24 24"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
@@ -837,6 +837,16 @@ window.triggerClientScan = async function() {
     alert("Live scan complete! Job listings populated inside dashboard.");
   }, 2000);
 };
+
+// Get platform homepage for attribution
+function getSourceHomepage(source) {
+  const s = source.toLowerCase();
+  if (s === 'linkedin') return 'https://www.linkedin.com/jobs';
+  if (s === 'naukri') return 'https://www.naukri.com';
+  if (s === 'weworkremotely') return 'https://weworkremotely.com';
+  if (s === 'remotejobs') return 'https://remote.co';
+  return '#';
+}
 
 // Copy function for prompt generator inside Technical Report
 window.copyPromptText = function() {
