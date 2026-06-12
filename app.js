@@ -22,7 +22,13 @@ const state = {
     experience: 'all', // all, entry, mid, senior
     minSalary: 0
   },
-  sorting: 'freshness' // freshness, salary, rating
+  sorting: 'freshness', // freshness, salary, rating
+  settings: {
+    llmProvider: 'none',
+    apiKey: '',
+    modelName: ''
+  },
+  activeEditingCard: null
 };
 
 // Constant Multipliers for PPP Calculations
@@ -38,12 +44,135 @@ const STOP_WORDS = new Set([
 
 // Initialize Application
 document.addEventListener('DOMContentLoaded', () => {
+  loadSettingsState();
   setupNavigation();
   setupFilterListeners();
   setupDragAndDrop();
   loadKanbanState();
   initDashboard();
 });
+// Load and Save Settings State
+function loadSettingsState() {
+  const localSettings = localStorage.getItem('lastsignature_settings');
+  if (localSettings) {
+    try {
+      state.settings = JSON.parse(localSettings);
+    } catch (e) {
+      console.error("Failed to parse settings", e);
+    }
+  }
+}
+
+function saveSettingsState() {
+  localStorage.setItem('lastsignature_settings', JSON.stringify(state.settings));
+}
+
+// Settings Modal Actions
+window.openSettingsModal = function() {
+  const providerSelect = document.getElementById('settings-llm-provider');
+  const keyInput = document.getElementById('settings-api-key');
+  const modelInput = document.getElementById('settings-model-name');
+
+  if (providerSelect) providerSelect.value = state.settings.llmProvider || 'none';
+  if (keyInput) keyInput.value = state.settings.apiKey || '';
+  if (modelInput) modelInput.value = state.settings.modelName || '';
+
+  handleLLMProviderChange();
+
+  document.getElementById('settings-modal').classList.add('active');
+};
+
+window.closeSettingsModal = function() {
+  document.getElementById('settings-modal').classList.remove('active');
+};
+
+window.handleLLMProviderChange = function() {
+  const provider = document.getElementById('settings-llm-provider').value;
+  const keyGroup = document.getElementById('settings-api-key-group');
+  const modelGroup = document.getElementById('settings-model-group');
+  const modelInput = document.getElementById('settings-model-name');
+
+  if (provider === 'none') {
+    keyGroup.style.display = 'none';
+    modelGroup.style.display = 'none';
+  } else {
+    keyGroup.style.display = 'block';
+    modelGroup.style.display = 'block';
+    
+    // Suggest default model if empty
+    if (!modelInput.value) {
+      if (provider === 'gemini') {
+        modelInput.value = 'gemini-1.5-flash';
+      } else if (provider === 'openai') {
+        modelInput.value = 'gpt-4o-mini';
+      }
+    }
+  }
+};
+
+window.saveSettings = function() {
+  const provider = document.getElementById('settings-llm-provider').value;
+  const apiKey = document.getElementById('settings-api-key').value;
+  const modelName = document.getElementById('settings-model-name').value;
+
+  state.settings.llmProvider = provider;
+  state.settings.apiKey = apiKey.trim();
+  state.settings.modelName = modelName.trim();
+
+  saveSettingsState();
+  closeSettingsModal();
+  alert("Settings saved successfully!");
+};
+
+// Export and Import JSON Utility
+window.exportBackupData = function() {
+  const backup = {
+    kanban: state.kanban,
+    settings: state.settings
+  };
+
+  const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(backup, null, 2));
+  const downloadAnchor = document.createElement('a');
+  downloadAnchor.setAttribute("href", dataStr);
+  downloadAnchor.setAttribute("download", "lastsignature_backup.json");
+  document.body.appendChild(downloadAnchor);
+  downloadAnchor.click();
+  downloadAnchor.remove();
+};
+
+window.triggerImportUpload = function() {
+  document.getElementById('import-file-input').click();
+};
+
+window.importBackupData = function(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      
+      // Simple structure validation
+      if (!parsed.kanban || typeof parsed.kanban !== 'object') {
+        throw new Error("Invalid backup format: missing 'kanban' board state.");
+      }
+
+      state.kanban = parsed.kanban;
+      if (parsed.settings) {
+        state.settings = parsed.settings;
+        saveSettingsState();
+      }
+
+      saveKanbanState();
+      alert("Backup successfully restored! Reloading the page...");
+      window.location.reload();
+    } catch (err) {
+      alert("Restore failed: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+};
 
 // Setup sidebar and tab switching
 function setupNavigation() {
@@ -612,7 +741,7 @@ function extractKeywords(text) {
 }
 
 // Run analysis inside the matcher tab (No Match Score percentage)
-window.runMatcherAnalysis = function() {
+window.runMatcherAnalysis = async function() {
   const resumeText = document.getElementById('resume-text').value;
   const job = state.selectedJobForMatcher;
   if (!job) return;
@@ -621,7 +750,91 @@ window.runMatcherAnalysis = function() {
   const missingList = document.getElementById('missing-keywords-list');
   const pitchBox = document.getElementById('pitch-box');
 
-  // Keywords highlighting
+  const provider = state.settings.llmProvider;
+  const apiKey = state.settings.apiKey;
+  const modelName = state.settings.modelName;
+
+  if (provider === 'gemini' && apiKey) {
+    matchedList.innerHTML = '<span class="keyword-pill" style="border-color:var(--accent);">AI matching...</span>';
+    missingList.innerHTML = '<span class="keyword-pill" style="border-color:var(--accent);">AI matching...</span>';
+    pitchBox.innerHTML = '<span style="color:var(--muted-foreground)">AI generating tailored pitch...</span>';
+
+    try {
+      const prompt = `You are a technical recruiter. Scan the following resume against the job description for the role: ${job.title} at ${job.company}.
+Job Description:
+${job.description}
+
+Resume:
+${resumeText}
+
+Analyze which keywords/technologies are matched, which critical keywords/technologies are missing, and generate a tailored application cover letter pitch.
+Return ONLY a valid raw JSON object with keys "matchedKeywords" (array of strings), "missingKeywords" (array of strings), and "pitch" (string). Do not wrap the JSON output in markdown block code tags, and output nothing else.`;
+
+      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${modelName || 'gemini-1.5-flash'}:generateContent?key=${apiKey}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      });
+
+      if (!response.ok) throw new Error(`Gemini API returned status ${response.status}`);
+      const data = await response.json();
+      const text = data.candidates[0].content.parts[0].text;
+      
+      const cleanJson = text.replace(/```json|```/gi, '').trim();
+      const result = JSON.parse(cleanJson);
+
+      renderMatcherResults(result.matchedKeywords, result.missingKeywords, result.pitch);
+      return;
+    } catch (e) {
+      console.error("Gemini API Matcher failed. Falling back to local heuristic analyzer.", e);
+    }
+  } else if (provider === 'openai' && apiKey) {
+    matchedList.innerHTML = '<span class="keyword-pill" style="border-color:var(--accent);">AI matching...</span>';
+    missingList.innerHTML = '<span class="keyword-pill" style="border-color:var(--accent);">AI matching...</span>';
+    pitchBox.innerHTML = '<span style="color:var(--muted-foreground)">AI generating tailored pitch...</span>';
+
+    try {
+      const prompt = `Scan the following resume against the job description for the role: ${job.title} at ${job.company}.
+Job Description:
+${job.description}
+
+Resume:
+${resumeText}
+
+Analyze which keywords/technologies are matched, which critical keywords/technologies are missing, and generate a tailored application cover letter pitch.
+Return ONLY a valid JSON object with keys "matchedKeywords" (array of strings), "missingKeywords" (array of strings), and "pitch" (string).`;
+
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+          model: modelName || 'gpt-4o-mini',
+          messages: [
+            { role: 'system', content: 'You are an expert technical recruiter and ATS CV writer. Output only raw JSON.' },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.3
+        })
+      });
+
+      if (!response.ok) throw new Error(`OpenAI API returned status ${response.status}`);
+      const data = await response.json();
+      const text = data.choices[0].message.content;
+      
+      const cleanJson = text.replace(/```json|```/gi, '').trim();
+      const result = JSON.parse(cleanJson);
+
+      renderMatcherResults(result.matchedKeywords, result.missingKeywords, result.pitch);
+      return;
+    } catch (e) {
+      console.error("OpenAI API Matcher failed. Falling back to local heuristic analyzer.", e);
+    }
+  }
+
+  // Local Heuristics Fallback
   const jobKeywords = extractKeywords(job.description);
   const resumeKeywords = new Set(extractKeywords(resumeText));
   
@@ -636,6 +849,18 @@ window.runMatcherAnalysis = function() {
     }
   });
 
+  const generatedPitch = resumeText 
+    ? generateTailoredCoverLetter(job, matched)
+    : `<span style="color:var(--muted-foreground)">Paste your resume on the left panel to auto-generate a personalized email pitch tailored to ${job.company}'s hiring manager.</span>`;
+
+  renderMatcherResults(matched, missing, generatedPitch);
+};
+
+function renderMatcherResults(matched, missing, pitch) {
+  const matchedList = document.getElementById('matched-keywords-list');
+  const missingList = document.getElementById('missing-keywords-list');
+  const pitchBox = document.getElementById('pitch-box');
+
   matchedList.innerHTML = matched.length > 0 
     ? matched.map(k => `<span class="keyword-pill matched">${escapeHTML(k)}</span>`).join('')
     : '<span style="color:var(--muted-foreground); font-size:13px;">None identified yet. Add more detail.</span>';
@@ -644,13 +869,8 @@ window.runMatcherAnalysis = function() {
     ? missing.map(k => `<span class="keyword-pill missing">${escapeHTML(k)}</span>`).join('')
     : '<span style="color:var(--muted-foreground); font-size:13px;">None! Perfect keyword matching.</span>';
 
-  // Cover Letter Generator
-  if (resumeText) {
-    pitchBox.innerHTML = generateTailoredCoverLetter(job, matched);
-  } else {
-    pitchBox.innerHTML = `<span style="color:var(--muted-foreground)">Paste your resume on the left panel to auto-generate a personalized email pitch tailored to ${job.company}'s hiring manager.</span>`;
-  }
-};
+  pitchBox.innerHTML = pitch;
+}
 
 function generateTailoredCoverLetter(job, keywords) {
   const skillHighlight = keywords.slice(0, 3).join(', ');
@@ -747,11 +967,16 @@ function renderKanbanBoard() {
       </div>
     `).join('');
 
-    // Rebind drag start events to children
+    // Rebind drag start and click events to children
     colList.querySelectorAll('.kanban-card').forEach(card => {
+      const cardId = card.getAttribute('data-id');
       card.addEventListener('dragstart', (e) => {
-        e.dataTransfer.setData('text/plain', e.target.getAttribute('data-id'));
+        e.dataTransfer.setData('text/plain', cardId);
         e.dataTransfer.setData('source-column', col);
+      });
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('button') || e.target.closest('a')) return;
+        openCardDetailsModal(cardId, col);
       });
     });
   });
@@ -879,4 +1104,134 @@ window.copyPromptText = function() {
       btn.textContent = 'Copied!';
       setTimeout(() => btn.textContent = 'Copy Prompt', 2000);
     });
+};
+
+// Email Correspondence Parser
+window.parseAndProcessEmail = function() {
+  const emailText = document.getElementById('email-paste-area').value.trim();
+  const resultEl = document.getElementById('email-parse-result');
+  if (!emailText) {
+    alert("Please paste recruiter email content first!");
+    return;
+  }
+
+  let matchedJob = null;
+  let matchedCol = null;
+  const columns = ['wishlist', 'applied', 'interviewing', 'offered', 'rejected'];
+
+  // Scans active pipeline for matching company name
+  for (const col of columns) {
+    const list = state.kanban[col] || [];
+    for (const job of list) {
+      const companyName = job.company.toLowerCase();
+      const companyRegex = new RegExp('\\b' + escapeRegExp(companyName) + '\\b', 'i');
+      if (companyRegex.test(emailText) || emailText.toLowerCase().includes(companyName)) {
+        matchedJob = job;
+        matchedCol = col;
+        break;
+      }
+    }
+    if (matchedJob) break;
+  }
+
+  if (!matchedJob) {
+    resultEl.style.display = 'block';
+    resultEl.style.backgroundColor = 'rgba(239, 68, 68, 0.1)';
+    resultEl.style.color = 'var(--color-danger)';
+    resultEl.style.border = '1px solid rgba(239, 68, 68, 0.2)';
+    resultEl.innerHTML = `Could not match any company name from your active pipeline. Check that the company name exists on your board and in the pasted email.`;
+    return;
+  }
+
+  // Sentiment stage detection
+  const emailLower = emailText.toLowerCase();
+  const isRejected = /\b(unfortunately|not moving forward|other candidates|pursue other|thank you for your interest|thank you for applying|thank you for your time|decided to go with|with other|not selected|decided to pursue|not move forward|declined)\b/i.test(emailLower);
+  const isInterview = /\b(interview|schedule|zoom|calendly|call|chat|meet|discussion|conversation|invite to|phone screen|hiring manager)\b/i.test(emailLower);
+  const isOffered = /\b(offer|compensation|salary|contract|invite to join|onboard|package|hired|sign the|written offer)\b/i.test(emailLower);
+
+  let detectedCol = null;
+  if (isOffered) {
+    detectedCol = 'offered';
+  } else if (isRejected) {
+    detectedCol = 'rejected';
+  } else if (isInterview) {
+    detectedCol = 'interviewing';
+  }
+
+  if (!detectedCol) {
+    resultEl.style.display = 'block';
+    resultEl.style.backgroundColor = 'rgba(245, 158, 11, 0.1)';
+    resultEl.style.color = 'var(--color-warning)';
+    resultEl.style.border = '1px solid rgba(245, 158, 11, 0.2)';
+    resultEl.innerHTML = `Matched company <strong>${escapeHTML(matchedJob.company)}</strong>, but could not auto-detect the stage (Interviewing / Offered / Rejected) from the email content.`;
+    return;
+  }
+
+  if (detectedCol === matchedCol) {
+    resultEl.style.display = 'block';
+    resultEl.style.backgroundColor = 'rgba(6, 182, 212, 0.1)';
+    resultEl.style.color = 'var(--accent-cyan)';
+    resultEl.style.border = '1px solid rgba(6, 182, 212, 0.2)';
+    resultEl.innerHTML = `Detected email is for <strong>${escapeHTML(matchedJob.company)}</strong> (${detectedCol.toUpperCase()}), but the card is already in that column.`;
+    return;
+  }
+
+  // Move card instantly
+  state.kanban[matchedCol] = state.kanban[matchedCol].filter(j => j.id !== matchedJob.id);
+  state.kanban[detectedCol].push(matchedJob);
+  saveKanbanState();
+  renderKanbanBoard();
+
+  resultEl.style.display = 'block';
+  resultEl.style.backgroundColor = 'rgba(16, 185, 129, 0.1)';
+  resultEl.style.color = 'var(--color-success)';
+  resultEl.style.border = '1px solid rgba(16, 185, 129, 0.2)';
+  resultEl.innerHTML = `Instantly moved <strong>${escapeHTML(matchedJob.company)}</strong> card from ${matchedCol.toUpperCase()} to <strong>${detectedCol.toUpperCase()}</strong> stage!`;
+
+  document.getElementById('email-paste-area').value = '';
+};
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Kanban Card Details Modal
+window.openCardDetailsModal = function(jobId, col) {
+  const job = state.kanban[col].find(j => j.id === jobId);
+  if (!job) return;
+
+  state.activeEditingCard = { jobId, col };
+
+  document.getElementById('detail-job-title').textContent = job.title;
+  document.getElementById('detail-company-name').textContent = job.company;
+  document.getElementById('detail-job-source').textContent = job.source;
+  document.getElementById('detail-job-location').textContent = job.location || 'Not Specified';
+  document.getElementById('detail-job-experience').textContent = job.experience || 'Not Specified';
+  document.getElementById('detail-job-salary').textContent = formatSalaryDisplay(job.salary, job.location);
+  document.getElementById('detail-job-desc').textContent = job.description || 'No description preserved.';
+
+  document.getElementById('detail-tailored-cv').value = job.tailoredCV || '';
+  document.getElementById('detail-tailored-pitch').value = job.tailoredPitch || '';
+
+  document.getElementById('card-details-modal').classList.add('active');
+};
+
+window.closeCardDetailsModal = function() {
+  document.getElementById('card-details-modal').classList.remove('active');
+  state.activeEditingCard = null;
+};
+
+window.saveCardDetails = function() {
+  if (!state.activeEditingCard) return;
+  const { jobId, col } = state.activeEditingCard;
+  const job = state.kanban[col].find(j => j.id === jobId);
+  if (!job) return;
+
+  job.tailoredCV = document.getElementById('detail-tailored-cv').value;
+  job.tailoredPitch = document.getElementById('detail-tailored-pitch').value;
+
+  saveKanbanState();
+  renderKanbanBoard();
+  closeCardDetailsModal();
+  alert("Tailored application details updated!");
 };

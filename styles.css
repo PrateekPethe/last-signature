@@ -1282,3 +1282,84 @@ input:checked + .slider-toggle:before {
   0% { background-position: 200% 0; }
   100% { background-position: -200% 0; }
 }
+
+/* System Settings & Utilities */
+.settings-btn {
+  background: var(--bg-card);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  padding: 8px 14px;
+  font-family: var(--font-primary);
+  font-weight: 600;
+  font-size: 13px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition-smooth);
+}
+
+.settings-btn:hover {
+  border-color: var(--accent);
+  background: var(--muted);
+  box-shadow: 0 4px 12px var(--accent-glow);
+}
+
+.settings-btn svg {
+  width: 15px;
+  height: 15px;
+  stroke: var(--foreground);
+  stroke-width: 2.2;
+  fill: none;
+  transition: var(--transition-smooth);
+}
+
+.settings-btn:hover svg {
+  transform: rotate(45deg);
+  stroke: var(--accent);
+}
+
+.settings-section {
+  padding: 8px 0;
+}
+
+.settings-section h3 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+.settings-section p {
+  line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+.form-group label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--muted-foreground);
+  display: block;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.form-group input, .form-group select {
+  font-family: var(--font-primary);
+  outline: none;
+  transition: var(--transition-smooth);
+}
+
+.form-group input:focus, .form-group select:focus {
+  border-color: var(--accent);
+}
+
+/* Email Parser Card Updates */
+.email-parser-card textarea {
+  transition: var(--transition-smooth);
+}
+.email-parser-card textarea:focus {
+  border-color: var(--accent-cyan) !important;
+  box-shadow: 0 0 10px var(--accent-cyan-glow);
+}

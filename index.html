@@ -94,6 +94,11 @@
             <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
             <span>SCAN FEEDS</span>
           </button>
+
+          <button class="settings-btn" onclick="openSettingsModal()" title="SYSTEM CONFIGURATION">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            <span>SETTINGS</span>
+          </button>
         </div>
       </header>
 
@@ -296,6 +301,23 @@
           <h2 style="font-size:20px; font-weight:700; margin-bottom:4px; text-transform: uppercase;">III. APPLICATIONS PIPELINE</h2>
           <p style="font-size:13px; color:var(--muted-foreground);">MANAGE YOUR ACTIVE APPLICATION PIPELINE. DRAG AND DROP CARDS BETWEEN STATUS COLUMNS.</p>
         </div>
+
+        <!-- Email Correspondence Parser Card -->
+        <div class="email-parser-card" style="margin-bottom: 24px; background: var(--bg-card); border: 1px dashed var(--border); border-radius: var(--radius-lg); padding: 18px;">
+          <h3 style="font-size: 14px; font-weight: 700; color: var(--foreground); margin-bottom: 8px; display: flex; align-items: center; gap: 6px; text-transform: uppercase;">
+            <svg viewBox="0 0 24 24" style="width:16px; height:16px; stroke:var(--accent-cyan); stroke-width:2.5; fill:none;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Auto-Track Application via Email Update
+          </h3>
+          <p style="font-size: 12px; color: var(--muted-foreground); margin-bottom: 12px;">PASTE THE TEXT OF AN EMAIL RECEIVED FROM A RECRUITER. THE SYSTEM WILL DETECT THE SENDER COMPANY AND AUTO-UPDATE THE PIPELINE CARD STAGE INSTANTLY (INTERVIEWING, OFFERED, REJECTED).</p>
+          <div style="display: flex; gap: 12px; align-items: stretch; flex-wrap: wrap;">
+            <textarea id="email-paste-area" style="flex: 1; min-width: 250px; background: var(--bg-primary); border: 1px solid var(--border); padding: 12px; color: var(--foreground); border-radius: var(--radius-md); font-size: 13px; font-family: var(--font-primary); outline: none; height: 80px; resize: none;" placeholder="PASTE RECRUITER EMAIL CONTENT HERE (e.g. 'We would love to invite you to a interview' or 'unfortunately we are not moving forward')..."></textarea>
+            <button class="match-btn" style="font-size: 12px; padding: 0 20px; justify-content: center; align-items: center;" onclick="parseAndProcessEmail()">
+              PARSE EMAIL FEEDBACK
+            </button>
+          </div>
+          <div id="email-parse-result" style="margin-top: 12px; font-size: 13px; font-weight: 600; display: none; padding: 10px; border-radius: var(--radius-md);"></div>
+        </div>
+
         <div class="kanban-board-container">
           
           <!-- Wishlist Column -->
@@ -469,6 +491,115 @@ LOGICAL REQUIREMENTS:
       <h3 class="filter-label" style="margin-bottom:8px;">EMPLOYEE SATISFACTION METRICS</h3>
       <div class="rating-bars-container" id="rating-rows-container">
         <!-- Filled dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings & Backup Modal -->
+  <div class="modal" id="settings-modal">
+    <div class="modal-content" style="max-width: 500px;">
+      <div class="modal-header">
+        <h2>SYSTEM CONFIGURATION</h2>
+        <button class="modal-close" onclick="closeSettingsModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      
+      <div class="settings-section">
+        <h3 style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; text-transform: uppercase;">I. MULTI-LLM API CONNECTIVITY</h3>
+        <p style="font-size:12px; color:var(--muted-foreground); margin-bottom:12px;">Configure Gemini or OpenAI keys to analyze CVs and write cover letters directly inside the Matcher tab.</p>
+        
+        <div class="form-group" style="margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); display: block; margin-bottom: 4px; text-transform: uppercase;">LLM PROVIDER</label>
+          <select id="settings-llm-provider" class="sort-select" style="width:100%; padding:8px; margin-top:4px;" onchange="handleLLMProviderChange()">
+            <option value="none">DISABLED (FALLBACK CLIENT-SIDE KEYWORDS)</option>
+            <option value="gemini">GOOGLE GEMINI API</option>
+            <option value="openai">OPENAI API</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="settings-api-key-group" style="display:none; margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); display: block; margin-bottom: 4px; text-transform: uppercase;">API KEY</label>
+          <input type="password" id="settings-api-key" class="search-input" style="width:100%; background:var(--bg-primary); border:1px solid var(--border); padding:8px; border-radius:var(--radius-md); margin-top:4px;" placeholder="Enter API Key...">
+        </div>
+
+        <div class="form-group" id="settings-model-group" style="display:none; margin-bottom: 12px;">
+          <label style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); display: block; margin-bottom: 4px; text-transform: uppercase;">MODEL NAME</label>
+          <input type="text" id="settings-model-name" class="search-input" style="width:100%; background:var(--bg-primary); border:1px solid var(--border); padding:8px; border-radius:var(--radius-md); margin-top:4px;" placeholder="e.g., gemini-1.5-flash or gpt-4o-mini">
+        </div>
+      </div>
+
+      <div class="settings-section" style="margin-top:24px; border-top:1px solid var(--border); padding-top:16px;">
+        <h3 style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); margin-bottom: 8px; text-transform: uppercase;">II. DATA STORAGE BACKUP</h3>
+        <p style="font-size:12px; color:var(--muted-foreground); margin-bottom:12px;">Export your application pipeline layouts, saved CV descriptions, and configurations locally as a JSON backup. Import it on any browser.</p>
+        
+        <div style="display:flex; gap:10px;">
+          <button class="apply-button" onclick="exportBackupData()" style="flex:1; justify-content:center; background:linear-gradient(135deg, var(--accent-cyan), #0891b2);">
+            <span>Export Backup</span>
+          </button>
+          <button class="apply-button" onclick="triggerImportUpload()" style="flex:1; justify-content:center; background:linear-gradient(135deg, var(--accent), #4f46e5);">
+            <span>Import Backup</span>
+          </button>
+          <input type="file" id="import-file-input" style="display:none;" accept=".json" onchange="importBackupData(event)">
+        </div>
+      </div>
+      
+      <div style="margin-top:24px; display:flex; justify-content:flex-end;">
+        <button class="match-btn" onclick="saveSettings()">SAVE SETTINGS</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Kanban Card Details Modal -->
+  <div class="modal" id="card-details-modal">
+    <div class="modal-content" style="max-width: 800px; display: flex; flex-direction: column; max-height: 90vh; overflow-y: auto;">
+      <div class="modal-header">
+        <h2 id="detail-job-title" style="margin: 0; font-size: 20px; text-transform: uppercase;">JOB TITLE</h2>
+        <button class="modal-close" onclick="closeCardDetailsModal()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      
+      <div style="display: flex; gap: 24px; margin-top: 16px; flex-wrap: wrap;">
+        <!-- Left Side: Job Context Snapshot -->
+        <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); border-bottom: 1px solid var(--border); padding-bottom: 6px; text-transform: uppercase; margin: 0;">JOB SNAPSHOT</h3>
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <span class="source-badge" id="detail-company-name" style="font-size:12px; font-weight:700;">Company</span>
+            <span class="source-badge" id="detail-job-source" style="font-size:12px;">Source</span>
+          </div>
+          
+          <div style="font-size: 13px; color: var(--muted-foreground); display: flex; flex-direction: column; gap: 6px;">
+            <div><strong>Location:</strong> <span id="detail-job-location"></span></div>
+            <div><strong>Experience:</strong> <span id="detail-job-experience"></span></div>
+            <div><strong>Salary:</strong> <span id="detail-job-salary" style="color:var(--accent-cyan); font-weight:600;"></span></div>
+          </div>
+          
+          <div class="code-copy-box" style="white-space: pre-wrap; font-size: 13px; max-height: 250px; overflow-y: auto; background: var(--bg-primary); border: 1px solid var(--border); padding: 12px; border-radius: var(--radius-md);" id="detail-job-desc">
+            <!-- Job Description -->
+          </div>
+        </div>
+        
+        <!-- Right Side: Custom CV/Resume Snapshot & Custom Pitch -->
+        <div style="flex: 1; min-width: 300px; display: flex; flex-direction: column; gap: 12px;">
+          <h3 style="font-size: 13px; font-weight: 700; color: var(--accent-cyan); border-bottom: 1px solid var(--border); padding-bottom: 6px; text-transform: uppercase; margin: 0;">TAILORED APPLICATION CV & PITCH</h3>
+          <p style="font-size: 11px; color: var(--muted-foreground);">Store the exact version of the resume/skills and customized cover letter pitch sent for this application.</p>
+          
+          <div class="form-group" style="display: flex; flex-direction: column; gap: 4px;">
+            <label style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">TAILORED RESUME/CV NOTES</label>
+            <textarea id="detail-tailored-cv" class="resume-textarea" style="height: 120px; font-size:12px;" placeholder="Paste the tailored CV/resume text or custom modifications you sent..."></textarea>
+          </div>
+          
+          <div class="form-group" style="display: flex; flex-direction: column; gap: 4px; margin-top: 8px;">
+            <label style="font-size: 11px; font-weight: 700; color: var(--muted-foreground); text-transform: uppercase;">TAILORED APPLICATION PITCH</label>
+            <textarea id="detail-tailored-pitch" class="resume-textarea" style="height: 120px; font-size:12px;" placeholder="Paste the tailored pitch/cover letter used..."></textarea>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; justify-content: flex-end; gap: 10px;">
+        <button class="save-board-btn" style="padding: 10px 20px; background: var(--muted); color: var(--foreground); border: 1px solid var(--border); border-radius:var(--radius-md);" onclick="closeCardDetailsModal()">Cancel</button>
+        <button class="match-btn" style="padding: 10px 20px;" onclick="saveCardDetails()">SAVE CHANGES</button>
       </div>
     </div>
   </div>
